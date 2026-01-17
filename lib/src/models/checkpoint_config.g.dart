@@ -16,8 +16,8 @@ CheckpointConfig _$CheckpointConfigFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CheckpointConfigToJson(CheckpointConfig instance) =>
     <String, dynamic>{
-      if (instance.threadId case final value?) 'thread_id': value,
-      if (instance.checkpointNs case final value?) 'checkpoint_ns': value,
-      if (instance.checkpointId case final value?) 'checkpoint_id': value,
-      if (instance.checkpointMap case final value?) 'checkpoint_map': value,
+      'thread_id': ?instance.threadId,
+      'checkpoint_ns': ?instance.checkpointNs,
+      'checkpoint_id': ?instance.checkpointId,
+      'checkpoint_map': ?instance.checkpointMap,
     };

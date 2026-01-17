@@ -7,26 +7,26 @@ part of 'assistant.dart';
 // **************************************************************************
 
 Assistant _$AssistantFromJson(Map<String, dynamic> json) => Assistant(
-      assistantId: json['assistant_id'] as String,
-      graphId: json['graph_id'] as String,
-      config: AssistantConfig.fromJson(json['config'] as Map<String, dynamic>),
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      metadata: json['metadata'] as Map<String, dynamic>,
-      version: (json['version'] as num?)?.toInt(),
-      name: json['name'] as String?,
-    );
+  assistantId: json['assistant_id'] as String,
+  graphId: json['graph_id'] as String,
+  config: AssistantConfig.fromJson(json['config'] as Map<String, dynamic>),
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  metadata: json['metadata'] as Map<String, dynamic>,
+  version: (json['version'] as num?)?.toInt(),
+  name: json['name'] as String?,
+);
 
 Map<String, dynamic> _$AssistantToJson(Assistant instance) => <String, dynamic>{
-      'assistant_id': instance.assistantId,
-      'graph_id': instance.graphId,
-      'config': instance.config.toJson(),
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'metadata': instance.metadata,
-      if (instance.version case final value?) 'version': value,
-      if (instance.name case final value?) 'name': value,
-    };
+  'assistant_id': instance.assistantId,
+  'graph_id': instance.graphId,
+  'config': instance.config.toJson(),
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'metadata': instance.metadata,
+  'version': ?instance.version,
+  'name': ?instance.name,
+};
 
 AssistantConfig _$AssistantConfigFromJson(Map<String, dynamic> json) =>
     AssistantConfig(
@@ -37,7 +37,7 @@ AssistantConfig _$AssistantConfigFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AssistantConfigToJson(AssistantConfig instance) =>
     <String, dynamic>{
-      if (instance.tags case final value?) 'tags': value,
-      if (instance.recursionLimit case final value?) 'recursion_limit': value,
-      if (instance.configurable case final value?) 'configurable': value,
+      'tags': ?instance.tags,
+      'recursion_limit': ?instance.recursionLimit,
+      'configurable': ?instance.configurable,
     };

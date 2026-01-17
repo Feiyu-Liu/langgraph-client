@@ -7,11 +7,11 @@ part of 'send.dart';
 // **************************************************************************
 
 Send _$SendFromJson(Map<String, dynamic> json) => Send(
-      node: json['node'] as String,
-      input: json['input'] as Map<String, dynamic>,
-    );
+  node: json['node'] as String,
+  input: json['input'] as Map<String, dynamic>,
+);
 
 Map<String, dynamic> _$SendToJson(Send instance) => <String, dynamic>{
-      'node': instance.node,
-      'input': instance.input,
-    };
+  'node': instance.node,
+  'input': instance.input,
+};

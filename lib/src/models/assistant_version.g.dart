@@ -25,22 +25,22 @@ Map<String, dynamic> _$AssistantVersionToJson(AssistantVersion instance) =>
       'config': instance.config.toJson(),
       'created_at': instance.createdAt.toIso8601String(),
       'metadata': instance.metadata,
-      if (instance.name case final value?) 'name': value,
+      'name': ?instance.name,
     };
 
 AssistantVersionList _$AssistantVersionListFromJson(
-        Map<String, dynamic> json) =>
-    AssistantVersionList(
-      versions: (json['versions'] as List<dynamic>)
-          .map((e) => AssistantVersion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Map<String, dynamic> json,
+) => AssistantVersionList(
+  versions: (json['versions'] as List<dynamic>)
+      .map((e) => AssistantVersion.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$AssistantVersionListToJson(
-        AssistantVersionList instance) =>
-    <String, dynamic>{
-      'versions': instance.versions.map((e) => e.toJson()).toList(),
-    };
+  AssistantVersionList instance,
+) => <String, dynamic>{
+  'versions': instance.versions.map((e) => e.toJson()).toList(),
+};
 
 AssistantSchema _$AssistantSchemaFromJson(Map<String, dynamic> json) =>
     AssistantSchema(
@@ -49,10 +49,7 @@ AssistantSchema _$AssistantSchemaFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$AssistantSchemaToJson(AssistantSchema instance) =>
-    <String, dynamic>{
-      if (instance.input case final value?) 'input': value,
-      if (instance.output case final value?) 'output': value,
-    };
+    <String, dynamic>{'input': ?instance.input, 'output': ?instance.output};
 
 AssistantSubgraph _$AssistantSubgraphFromJson(Map<String, dynamic> json) =>
     AssistantSubgraph(
@@ -61,7 +58,4 @@ AssistantSubgraph _$AssistantSubgraphFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$AssistantSubgraphToJson(AssistantSubgraph instance) =>
-    <String, dynamic>{
-      'namespace': instance.namespace,
-      'graph': instance.graph,
-    };
+    <String, dynamic>{'namespace': instance.namespace, 'graph': instance.graph};

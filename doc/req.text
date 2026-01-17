@@ -1,0 +1,103 @@
+event: messages|model_request:b7796bba-83c6-5b8a-8b4e-287e78eaa7b2
+data: [
+data:   {
+data:     "content": [
+data:       {
+data:         "index": 0,
+data:         "type": "text",
+data:         "text": "请"
+data:       }
+data:     ],
+data:     "additional_kwargs": {},
+data:     "tool_call_chunks": [],
+data:     "response_metadata": {
+data:       "model_provider": "anthropic"
+data:     },
+data:     "id": "msg_20260115181154c5ca99e253794239",
+data:     "tool_calls": [],
+data:     "invalid_tool_calls": [],
+data:     "type": "ai"
+data:   },
+data:   {
+data:     "tags": [],
+data:     "run_attempt": 1,
+data:     "langgraph_version": "1.0.7",
+data:     "langgraph_plan": "developer",
+data:     "langgraph_host": "self-hosted",
+data:     "langgraph_api_url": "http://localhost:2024",
+data:     "user-agent": "curl/8.2.1",
+data:     "run_id": "2f9ad8a5-e7b3-45a6-bc60-45afd1863e9a",
+data:     "thread_id": "524913db-f62f-407a-8196-71a83310b740",
+data:     "graph_id": "agent",
+data:     "assistant_id": "510cdb0d-5992-4100-a3de-8d9ca8bef7b9",
+data:     "langgraph_step": 3,
+data:     "langgraph_node": "model_request",
+data:     "langgraph_triggers": [
+data:       "branch:to:model_request"
+data:     ],
+data:     "langgraph_path": [
+data:       "__pregel_pull",
+data:       "model_request"
+data:     ],
+data:     "langgraph_checkpoint_ns": "model_request:b7796bba-83c6-5b8a-8b4e-287e78eaa7b2",
+data:     "__pregel_task_id": "b7796bba-83c6-5b8a-8b4e-287e78eaa7b2",
+data:     "checkpoint_ns": "model_request:b7796bba-83c6-5b8a-8b4e-287e78eaa7b2",
+data:     "ls_provider": "anthropic",
+data:     "ls_model_name": "glm-4.7",
+data:     "ls_model_type": "chat",
+data:     "ls_temperature": 0,
+data:     "ls_max_tokens": 2048
+data:   }
+data: ]
+
+event: messages|model_request:b7796bba-83c6-5b8a-8b4e-287e78eaa7b2
+data: [
+data:   {
+data:     "content": [
+data:       {
+data:         "index": 0,
+data:         "type": "text",
+data:         "text": "告诉我"
+data:       }
+data:     ],
+data:     "additional_kwargs": {},
+data:     "tool_call_chunks": [],
+data:     "response_metadata": {
+data:       "model_provider": "anthropic"
+data:     },
+data:     "id": "msg_20260115181154c5ca99e253794239",
+data:     "tool_calls": [],
+data:     "invalid_tool_calls": [],
+data:     "type": "ai"
+data:   },
+data:   {
+data:     "tags": [],
+data:     "run_attempt": 1,
+data:     "langgraph_version": "1.0.7",
+data:     "langgraph_plan": "developer",
+data:     "langgraph_host": "self-hosted",
+data:     "langgraph_api_url": "http://localhost:2024",
+data:     "user-agent": "curl/8.2.1",
+data:     "run_id": "2f9ad8a5-e7b3-45a6-bc60-45afd1863e9a",
+data:     "thread_id": "524913db-f62f-407a-8196-71a83310b740",
+data:     "graph_id": "agent",
+data:     "assistant_id": "510cdb0d-5992-4100-a3de-8d9ca8bef7b9",
+data:     "langgraph_step": 3,
+data:     "langgraph_node": "model_request",
+data:     "langgraph_triggers": [
+data:       "branch:to:model_request"
+data:     ],
+data:     "langgraph_path": [
+data:       "__pregel_pull",
+data:       "model_request"
+data:     ],
+data:     "langgraph_checkpoint_ns": "model_request:b7796bba-83c6-5b8a-8b4e-287e78eaa7b2",
+data:     "__pregel_task_id": "b7796bba-83c6-5b8a-8b4e-287e78eaa7b2",
+data:     "checkpoint_ns": "model_request:b7796bba-83c6-5b8a-8b4e-287e78eaa7b2",
+data:     "ls_provider": "anthropic",
+data:     "ls_model_name": "glm-4.7",
+data:     "ls_model_type": "chat",
+data:     "ls_temperature": 0,
+data:     "ls_max_tokens": 2048
+data:   }
+data: ]

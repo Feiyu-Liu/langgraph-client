@@ -7,28 +7,28 @@ part of 'run.dart';
 // **************************************************************************
 
 Run _$RunFromJson(Map<String, dynamic> json) => Run(
-      runId: json['run_id'] as String,
-      threadId: json['thread_id'] as String,
-      assistantId: json['assistant_id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      status: json['status'] as String,
-      metadata: json['metadata'] as Map<String, dynamic>,
-      kwargs: json['kwargs'] as Map<String, dynamic>,
-      multitaskStrategy: json['multitask_strategy'] as String,
-    );
+  runId: json['run_id'] as String,
+  threadId: json['thread_id'] as String,
+  assistantId: json['assistant_id'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  status: json['status'] as String,
+  metadata: json['metadata'] as Map<String, dynamic>,
+  kwargs: json['kwargs'] as Map<String, dynamic>,
+  multitaskStrategy: json['multitask_strategy'] as String,
+);
 
 Map<String, dynamic> _$RunToJson(Run instance) => <String, dynamic>{
-      'run_id': instance.runId,
-      'thread_id': instance.threadId,
-      'assistant_id': instance.assistantId,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'status': instance.status,
-      'metadata': instance.metadata,
-      'kwargs': instance.kwargs,
-      'multitask_strategy': instance.multitaskStrategy,
-    };
+  'run_id': instance.runId,
+  'thread_id': instance.threadId,
+  'assistant_id': instance.assistantId,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'status': instance.status,
+  'metadata': instance.metadata,
+  'kwargs': instance.kwargs,
+  'multitask_strategy': instance.multitaskStrategy,
+};
 
 RunCreateStateful _$RunCreateStatefulFromJson(Map<String, dynamic> json) =>
     RunCreateStateful(
@@ -58,20 +58,20 @@ RunCreateStateful _$RunCreateStatefulFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RunCreateStatefulToJson(RunCreateStateful instance) =>
     <String, dynamic>{
       'assistant_id': instance.assistantId,
-      if (instance.input case final value?) 'input': value,
-      if (instance.command?.toJson() case final value?) 'command': value,
-      if (instance.metadata case final value?) 'metadata': value,
-      if (instance.config?.toJson() case final value?) 'config': value,
-      if (instance.webhook case final value?) 'webhook': value,
-      if (instance.interruptBefore case final value?) 'interrupt_before': value,
-      if (instance.interruptAfter case final value?) 'interrupt_after': value,
-      if (instance.streamMode case final value?) 'stream_mode': value,
+      'input': ?instance.input,
+      'command': ?instance.command?.toJson(),
+      'metadata': ?instance.metadata,
+      'config': ?instance.config?.toJson(),
+      'webhook': ?instance.webhook,
+      'interrupt_before': ?instance.interruptBefore,
+      'interrupt_after': ?instance.interruptAfter,
+      'stream_mode': ?instance.streamMode,
       'stream_subgraphs': instance.streamSubgraphs,
       'on_disconnect': instance.onDisconnect,
-      if (instance.feedbackKeys case final value?) 'feedback_keys': value,
+      'feedback_keys': ?instance.feedbackKeys,
       'multitask_strategy': instance.multitaskStrategy,
       'if_not_exists': instance.ifNotExists,
-      if (instance.afterSeconds case final value?) 'after_seconds': value,
+      'after_seconds': ?instance.afterSeconds,
     };
 
 RunCreateStateless _$RunCreateStatelessFromJson(Map<String, dynamic> json) =>
@@ -101,17 +101,17 @@ RunCreateStateless _$RunCreateStatelessFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RunCreateStatelessToJson(RunCreateStateless instance) =>
     <String, dynamic>{
       'assistant_id': instance.assistantId,
-      if (instance.input case final value?) 'input': value,
-      if (instance.command?.toJson() case final value?) 'command': value,
-      if (instance.metadata case final value?) 'metadata': value,
-      if (instance.config?.toJson() case final value?) 'config': value,
-      if (instance.webhook case final value?) 'webhook': value,
-      if (instance.interruptBefore case final value?) 'interrupt_before': value,
-      if (instance.interruptAfter case final value?) 'interrupt_after': value,
-      if (instance.streamMode case final value?) 'stream_mode': value,
-      if (instance.feedbackKeys case final value?) 'feedback_keys': value,
+      'input': ?instance.input,
+      'command': ?instance.command?.toJson(),
+      'metadata': ?instance.metadata,
+      'config': ?instance.config?.toJson(),
+      'webhook': ?instance.webhook,
+      'interrupt_before': ?instance.interruptBefore,
+      'interrupt_after': ?instance.interruptAfter,
+      'stream_mode': ?instance.streamMode,
+      'feedback_keys': ?instance.feedbackKeys,
       'stream_subgraphs': instance.streamSubgraphs,
       'on_completion': instance.onCompletion,
       'on_disconnect': instance.onDisconnect,
-      if (instance.afterSeconds case final value?) 'after_seconds': value,
+      'after_seconds': ?instance.afterSeconds,
     };

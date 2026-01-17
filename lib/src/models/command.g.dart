@@ -7,13 +7,13 @@ part of 'command.dart';
 // **************************************************************************
 
 Command _$CommandFromJson(Map<String, dynamic> json) => Command(
-      update: json['update'] as Map<String, dynamic>?,
-      resume: json['resume'],
-      send: Command._parseSend(json['send']),
-    );
+  update: json['update'] as Map<String, dynamic>?,
+  resume: json['resume'],
+  send: Command._parseSend(json['send']),
+);
 
 Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
-      if (instance.update case final value?) 'update': value,
-      if (instance.resume case final value?) 'resume': value,
-      if (instance.send case final value?) 'send': value,
-    };
+  'update': ?instance.update,
+  'resume': ?instance.resume,
+  'send': ?instance.send,
+};
