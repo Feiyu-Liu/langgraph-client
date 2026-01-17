@@ -7,13 +7,13 @@ void main() {
 // https://langchain-ai.github.io/langgraph/cloud/reference/api/api_ref.html#tag/thread-runs/POST/threads/{thread_id}/runs/stream
 void streamStatefulRun() async {
   var client = LangGraphClient(
-    baseUrl: 'http://localhost:52273', // Replace with your LangGraph API URL
+    baseUrl: 'http://localhost:2024', // Replace with your LangGraph API URL
   );
 
   Thread thread = await client.createThread();
 
   var statefulRequest = RunCreateStateful(
-    assistantId: 'my-langgraph-agent', // Replace with your assistant ID
+    assistantId: '510cdb0d-5992-4100-a3de-8d9ca8bef7b9', // Replace with your assistant ID
     input: {
       'messages': [
         {
@@ -22,11 +22,27 @@ void streamStatefulRun() async {
         },
       ]
     },
-    streamMode: 'messages',
+    streamMode: 'messages-tuple',
   );
 
   await for (final sseEvent
       in client.streamStatefulRun(thread.threadId, statefulRequest)) {
-    print(sseEvent);
+    // Parse the SSE event using the new stream event models
+    final parsed = parseStreamEventData(sseEvent);
+    if (parsed != null) {
+      // Print the text content from the message
+      final text = parsed.message.firstText;
+      if (text != null) {
+        print(text);
+      }
+      // // Print metadata information
+      // print('Run ID: ${parsed.metadata.runId}');
+      // print('Node: ${parsed.metadata.langgraphNode}');
+      // print('Step: ${parsed.metadata.langgraphStep}');
+      // print('---');
+    } else {
+      // If parsing failed, print the raw event
+      print('Raw event: $sseEvent');
+    }
   }
 }

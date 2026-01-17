@@ -10,6 +10,7 @@
 /// - [Config]: Configuration options for runs
 /// - [Cron]: Scheduled background task
 /// - [StoreItem]: Data stored in the LangGraph Store
+/// - [StreamMessage], [StreamMetadata], [ParsedStreamEvent]: SSE stream event models
 ///
 /// These models correspond to the entities in the LangGraph API and are used
 /// by the client to serialize and deserialize request and response data.
@@ -25,3 +26,4 @@ export 'run.dart';
 export 'send.dart';
 export 'store.dart';
 export 'thread.dart';
+export 'stream_events/stream_events.dart';
