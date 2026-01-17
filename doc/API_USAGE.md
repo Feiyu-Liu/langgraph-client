@@ -316,10 +316,15 @@ await for (final event in client.streamStatefulRun(
 | 类型 | 说明 |
 |------|------|
 | `ParsedStreamEvent` | 解析后的流式事件，包含 message 和 metadata |
-| `StreamMessage` | SSE 消息对象，包含 content、id、type 等字段 |
-| `MessageContent` | 消息内容块，包含 index、type、text 等字段 |
-| `StreamMetadata` | SSE 元数据对象，包含 runId、langgraphNode 等字段 |
-| `ResponseMetadata` | 响应元数据，包含 modelProvider 等字段 |
+| `StreamMessage` | SSE 消息对象，包含 content、id、type、toolCalls 等字段 |
+| `MessageContent` | 消息内容块，包含 index、type、text、id、name、input 等字段 |
+| `StreamMetadata` | SSE 元数据对象，包含 runId、langgraphNode、name 等字段 |
+| `ResponseMetadata` | 响应元数据，包含 modelProvider、usage 等字段 |
+| `ToolCall` | 工具调用对象，包含 name、args、id、type |
+| `ToolCallChunk` | 流式工具调用片段，包含 id、index、name、args |
+| `InvalidToolCall` | 错误的工具调用，包含 name、args、error、type |
+| `UsageMetadata` | Token 使用元数据，包含 inputTokens、outputTokens、totalTokens |
+| `ToolUseContent` | 工具使用内容辅助类，包含 index、id、name、input |
 
 #### StreamMessage 便捷方法
 
@@ -330,12 +335,34 @@ if (text != null) {
   print('First text: $text');
 }
 
-// 访问所有内容块
-for (final content in parsed.message.content) {
-  print('Type: ${content.type}, Index: ${content.index}');
-  if (content.text != null) {
-    print('Text: ${content.text}');
-  }
+// 消息类型判断
+if (parsed.message.isAiMessage) {
+  print('This is an AI message');
+}
+if (parsed.message.isToolMessage) {
+  print('This is a tool message');
+}
+if (parsed.message.isRemoveMessage) {
+  print('This is a remove message');
+}
+
+// 访问工具调用
+final toolCalls = parsed.message.allToolCalls;
+for (final toolCall in toolCalls) {
+  print('Tool: ${toolCall.name}, Args: ${toolCall.args}');
+}
+
+// 访问工具调用片段（流式）
+final toolCallChunks = parsed.message.allToolCallChunks;
+for (final chunk in toolCallChunks) {
+  print('Chunk ${chunk.index}: ${chunk.name} - ${chunk.args}');
+}
+
+// 访问使用元数据
+if (parsed.message.usageMetadata != null) {
+  print('Input tokens: ${parsed.message.usageMetadata!.inputTokens}');
+  print('Output tokens: ${parsed.message.usageMetadata!.outputTokens}');
+  print('Total tokens: ${parsed.message.usageMetadata!.totalTokens}');
 }
 ```
 
@@ -604,10 +631,15 @@ try {
 | 类型 | 说明 |
 |------|------|
 | `ParsedStreamEvent` | 解析后的 SSE 流式事件，包含 message 和 metadata |
-| `StreamMessage` | SSE 流式消息对象，包含 content、id、type 等字段 |
-| `MessageContent` | 消息内容块，包含 index、type、text 等字段 |
-| `StreamMetadata` | SSE 流式元数据对象，包含 runId、langgraphNode 等字段 |
-| `ResponseMetadata` | 响应元数据，包含 modelProvider 等字段 |
+| `StreamMessage` | SSE 流式消息对象，包含 content、id、type、toolCalls 等字段 |
+| `MessageContent` | 消息内容块，包含 index、type、text、id、name、input 等字段 |
+| `StreamMetadata` | SSE 流式元数据对象，包含 runId、langgraphNode、name 等字段 |
+| `ResponseMetadata` | 响应元数据，包含 modelProvider、usage 等字段 |
+| `ToolCall` | 工具调用对象，包含 name、args、id、type |
+| `ToolCallChunk` | 流式工具调用片段，包含 id、index、name、args |
+| `InvalidToolCall` | 错误的工具调用，包含 name、args、error、type |
+| `UsageMetadata` | Token 使用元数据，包含 inputTokens、outputTokens、totalTokens |
+| `ToolUseContent` | 工具使用内容辅助类，包含 index、id、name、input |
 
 ### 请求模型
 

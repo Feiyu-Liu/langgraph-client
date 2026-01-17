@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:sse_stream/sse_stream.dart';
+
+import '../../api/client.dart';
 import 'message.dart';
 import 'metadata.dart';
 
@@ -19,11 +21,17 @@ class ParsedStreamEvent {
 
 /// Parses a LangGraph SSE event into typed models
 ///
-/// The SSE event data field contains a JSON array with two elements:
-/// - Index 0: StreamMessage (the message object)
-/// - Index 1: StreamMetadata (the metadata object)
+/// The SSE event data field can contain two formats:
 ///
-/// Returns [ParsedStreamEvent] if parsing succeeds, null otherwise.
+/// 1. **Message event** (JSON array with two elements):
+///   - Index 0: StreamMessage (the message object)
+///   - Index 1: StreamMetadata (the metadata object)
+///
+/// 2. **Metadata event** (JSON object):
+///   - Contains run metadata like `run_id`, `attempt`, etc.
+///   - These events are ignored by this parser
+///
+/// Returns [ParsedStreamEvent] for message events, null otherwise.
 ///
 /// Example:
 /// ```dart
@@ -41,15 +49,17 @@ ParsedStreamEvent? parseStreamEventData(SseEvent event) {
   }
 
   try {
-    // data field is a JSON array string
+    // Decode JSON data
     final data = event.data!.trim();
+    final decoded = jsonDecode(data);
 
-    // Use jsonDecode to convert string to List
-    final parsed = jsonDecode(data) as List;
-
-    if (parsed.length < 2) {
+    // Check if decoded data is a List (message event) or Map (metadata event)
+    if (decoded is! List || decoded.length < 2) {
+      // Metadata events (objects) or invalid arrays are not parsed here
       return null;
     }
+
+    final parsed = decoded;
 
     // First element is StreamMessage
     final message = StreamMessage.fromJson(parsed[0] as Map<String, dynamic>);
@@ -63,7 +73,11 @@ ParsedStreamEvent? parseStreamEventData(SseEvent event) {
       metadata: metadata,
     );
   } catch (e) {
-    // Parse failed, return null
-    return null;
+    // Parse failed - return null for non-fatal parsing errors
+    // The error is re-thrown as LangGraphApiException for proper error handling
+    if (e is LangGraphApiException) {
+      return null;
+    }
+    throw LangGraphApiException('Failed to parse SSE event: $e');
   }
 }

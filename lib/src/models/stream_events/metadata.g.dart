@@ -9,6 +9,7 @@ part of 'metadata.dart';
 StreamMetadata _$StreamMetadataFromJson(Map<String, dynamic> json) =>
     StreamMetadata(
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      name: json['name'] as String?,
       runAttempt: (json['run_attempt'] as num).toInt(),
       langgraphVersion: json['langgraph_version'] as String,
       langgraphPlan: json['langgraph_plan'] as String,
@@ -24,9 +25,7 @@ StreamMetadata _$StreamMetadataFromJson(Map<String, dynamic> json) =>
       langgraphTriggers: (json['langgraph_triggers'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      langgraphPath: (json['langgraph_path'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      langgraphPath: json['langgraph_path'] as List<dynamic>?,
       langgraphCheckpointNs: json['langgraph_checkpoint_ns'] as String?,
       pregelTaskId: json['__pregel_task_id'] as String?,
       checkpointNs: json['checkpoint_ns'] as String?,
@@ -40,6 +39,7 @@ StreamMetadata _$StreamMetadataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$StreamMetadataToJson(StreamMetadata instance) =>
     <String, dynamic>{
       'tags': instance.tags,
+      'name': ?instance.name,
       'run_attempt': instance.runAttempt,
       'langgraph_version': instance.langgraphVersion,
       'langgraph_plan': instance.langgraphPlan,

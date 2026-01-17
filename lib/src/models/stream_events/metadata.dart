@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../api/client.dart';
+
 part 'metadata.g.dart';
 
 /// SSE stream metadata object from LangGraph API
@@ -9,6 +11,7 @@ part 'metadata.g.dart';
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class StreamMetadata {
   final List<String> tags;
+  final String? name; // Node name (e.g., "model_request", "tools")
   @JsonKey(name: 'run_attempt')
   final int runAttempt;
   @JsonKey(name: 'langgraph_version')
@@ -36,7 +39,7 @@ class StreamMetadata {
   @JsonKey(name: 'langgraph_triggers')
   final List<String>? langgraphTriggers;
   @JsonKey(name: 'langgraph_path')
-  final List<String>? langgraphPath;
+  final List<dynamic>? langgraphPath;
   @JsonKey(name: 'langgraph_checkpoint_ns')
   final String? langgraphCheckpointNs;
   @JsonKey(name: '__pregel_task_id')
@@ -56,6 +59,7 @@ class StreamMetadata {
 
   StreamMetadata({
     required this.tags,
+    this.name,
     required this.runAttempt,
     required this.langgraphVersion,
     required this.langgraphPlan,
@@ -80,7 +84,15 @@ class StreamMetadata {
     this.lsMaxTokens,
   });
 
-  factory StreamMetadata.fromJson(Map<String, dynamic> json) =>
-      _$StreamMetadataFromJson(json);
+  factory StreamMetadata.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$StreamMetadataFromJson(json);
+    } catch (e) {
+      throw LangGraphApiException(
+        'Failed to parse StreamMetadata: $e\n'
+        'JSON keys: ${json.keys.toList()}',
+      );
+    }
+  }
   Map<String, dynamic> toJson() => _$StreamMetadataToJson(this);
 }
