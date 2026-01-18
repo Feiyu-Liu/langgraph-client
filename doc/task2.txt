@@ -1,0 +1,283 @@
+event: metadata
+data: {
+data:   "run_id": "781b5918-ec0f-4329-9124-4cde954e9439",
+data:   "attempt": 1
+data: }
+id: 0
+
+event: tasks
+data: {
+data:   "id": "684a52ce-0130-52f7-9577-9dcdd2f6c255",
+data:   "name": "patchToolCallsMiddleware.before_agent",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "triggers": [
+data:     "branch:to:patchToolCallsMiddleware.before_agent"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 1
+
+event: tasks
+data: {
+data:   "id": "684a52ce-0130-52f7-9577-9dcdd2f6c255",
+data:   "name": "patchToolCallsMiddleware.before_agent",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "id": "__remove_all__",
+data:         "content": [],
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "type": "remove"
+data:       },
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "interrupts": []
+data: }
+id: 2
+
+event: tasks
+data: {
+data:   "id": "15d2f97b-3bd7-5a42-996f-c06ceed8851d",
+data:   "name": "SummarizationMiddleware.before_model",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "triggers": [
+data:     "branch:to:SummarizationMiddleware.before_model"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 3
+
+event: tasks
+data: {
+data:   "id": "15d2f97b-3bd7-5a42-996f-c06ceed8851d",
+data:   "name": "SummarizationMiddleware.before_model",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "interrupts": []
+data: }
+id: 4
+
+event: tasks
+data: {
+data:   "id": "51e0984c-fc2b-5a32-a45c-c95f8e4c346c",
+data:   "name": "model_request",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       }
+data:     ],
+data:     "todos": [],
+data:     "files": {}
+data:   },
+data:   "triggers": [
+data:     "branch:to:model_request"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 5
+
+event: tasks
+data: {
+data:   "id": "51e0984c-fc2b-5a32-a45c-c95f8e4c346c",
+data:   "name": "model_request",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我是一个功能丰富的AI助手，可以帮助你完成很多任务。以下是我主要的能力：\n\n## 🚄 **火车票查询**\n- 查询火车余票信息\n- 查询中转票方案\n- 查询列车经停站点详情\n- 支持按车次类型筛选（高铁、动车、特快等）\n\n## 🌤️ **天气查询**\n- 实时天气情况\n- 未来72小时天气预报\n- 未来7天天气预报\n- 历史天气数据\n- 天气预警信息\n\n## 🗺️ **地图与导航**\n- 地址解析（地址转经纬度）\n- 逆地理编码（经纬度转地址）\n- 路径规划（驾车、步行、骑行、公交）\n- 周边搜索（找附近的餐厅、酒店等）\n- 距离测量\n- IP定位\n\n## 🕐 **时间与日期**\n- 查询世界各地当前时间\n- 时区转换\n- 获取当前日期\n\n## 🌐 **网络搜索**\n- 实时网络信息搜索\n- 网页内容提取\n- 知识库查询\n\n## 📁 **文件操作**\n- 读取、写入、编辑文件\n- 搜索文件和内容\n- 管理目录结构\n\n## 🗓️ **旅行规划**\n- 制定个性化旅行计划\n- 创建详细的行程安排\n- 推荐景点和活动\n\n## 💻 **其他能力**\n- 复杂任务分解与管理\n- 数据分析与计算\n- 内容创作与编辑\n- 问题解答与建议\n\n**有什么我可以帮助你的吗？** 比如：\n- \"帮我查一下明天北京到上海的高铁票\"\n- \"上海今天天气怎么样？\"\n- \"帮我规划一个杭州三日游\"\n- \"现在东京几点了？\""
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_202601181648289ecb9bfbfd234988",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "end_turn",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [],
+data:         "id": "msg_202601181648289ecb9bfbfd234988",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 388,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ]
+data:   },
+data:   "interrupts": []
+data: }
+id: 6
+
+event: tasks
+data: {
+data:   "id": "d9a61aa2-2314-55e6-b096-f23c9b71ea91",
+data:   "name": "todoListMiddleware.after_model",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       },
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我是一个功能丰富的AI助手，可以帮助你完成很多任务。以下是我主要的能力：\n\n## 🚄 **火车票查询**\n- 查询火车余票信息\n- 查询中转票方案\n- 查询列车经停站点详情\n- 支持按车次类型筛选（高铁、动车、特快等）\n\n## 🌤️ **天气查询**\n- 实时天气情况\n- 未来72小时天气预报\n- 未来7天天气预报\n- 历史天气数据\n- 天气预警信息\n\n## 🗺️ **地图与导航**\n- 地址解析（地址转经纬度）\n- 逆地理编码（经纬度转地址）\n- 路径规划（驾车、步行、骑行、公交）\n- 周边搜索（找附近的餐厅、酒店等）\n- 距离测量\n- IP定位\n\n## 🕐 **时间与日期**\n- 查询世界各地当前时间\n- 时区转换\n- 获取当前日期\n\n## 🌐 **网络搜索**\n- 实时网络信息搜索\n- 网页内容提取\n- 知识库查询\n\n## 📁 **文件操作**\n- 读取、写入、编辑文件\n- 搜索文件和内容\n- 管理目录结构\n\n## 🗓️ **旅行规划**\n- 制定个性化旅行计划\n- 创建详细的行程安排\n- 推荐景点和活动\n\n## 💻 **其他能力**\n- 复杂任务分解与管理\n- 数据分析与计算\n- 内容创作与编辑\n- 问题解答与建议\n\n**有什么我可以帮助你的吗？** 比如：\n- \"帮我查一下明天北京到上海的高铁票\"\n- \"上海今天天气怎么样？\"\n- \"帮我规划一个杭州三日游\"\n- \"现在东京几点了？\""
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_202601181648289ecb9bfbfd234988",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "end_turn",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [],
+data:         "id": "msg_202601181648289ecb9bfbfd234988",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 388,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ],
+data:     "todos": []
+data:   },
+data:   "triggers": [
+data:     "branch:to:todoListMiddleware.after_model"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 7
+
+event: tasks
+data: {
+data:   "id": "d9a61aa2-2314-55e6-b096-f23c9b71ea91",
+data:   "name": "todoListMiddleware.after_model",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "content": "你还能做什么",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "9d9bd6d1-bbd2-45e3-898f-50facc2cc9b7",
+data:         "type": "human"
+data:       },
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我是一个功能丰富的AI助手，可以帮助你完成很多任务。以下是我主要的能力：\n\n## 🚄 **火车票查询**\n- 查询火车余票信息\n- 查询中转票方案\n- 查询列车经停站点详情\n- 支持按车次类型筛选（高铁、动车、特快等）\n\n## 🌤️ **天气查询**\n- 实时天气情况\n- 未来72小时天气预报\n- 未来7天天气预报\n- 历史天气数据\n- 天气预警信息\n\n## 🗺️ **地图与导航**\n- 地址解析（地址转经纬度）\n- 逆地理编码（经纬度转地址）\n- 路径规划（驾车、步行、骑行、公交）\n- 周边搜索（找附近的餐厅、酒店等）\n- 距离测量\n- IP定位\n\n## 🕐 **时间与日期**\n- 查询世界各地当前时间\n- 时区转换\n- 获取当前日期\n\n## 🌐 **网络搜索**\n- 实时网络信息搜索\n- 网页内容提取\n- 知识库查询\n\n## 📁 **文件操作**\n- 读取、写入、编辑文件\n- 搜索文件和内容\n- 管理目录结构\n\n## 🗓️ **旅行规划**\n- 制定个性化旅行计划\n- 创建详细的行程安排\n- 推荐景点和活动\n\n## 💻 **其他能力**\n- 复杂任务分解与管理\n- 数据分析与计算\n- 内容创作与编辑\n- 问题解答与建议\n\n**有什么我可以帮助你的吗？** 比如：\n- \"帮我查一下明天北京到上海的高铁票\"\n- \"上海今天天气怎么样？\"\n- \"帮我规划一个杭州三日游\"\n- \"现在东京几点了？\""
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_202601181648289ecb9bfbfd234988",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "end_turn",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [],
+data:         "id": "msg_202601181648289ecb9bfbfd234988",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 388,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ],
+data:     "todos": []
+data:   },
+data:   "interrupts": []
+data: }
+id: 8
+

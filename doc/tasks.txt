@@ -1,0 +1,881 @@
+event: metadata
+data: {
+data:   "run_id": "ad4ef905-1bcb-44d9-953e-faf72b968e89",
+data:   "attempt": 1
+data: }
+id: 0
+
+event: tasks
+data: {
+data:   "id": "7660a93f-70ff-5108-a583-1cdb2aca6b7c",
+data:   "name": "patchToolCallsMiddleware.before_agent",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "triggers": [
+data:     "branch:to:patchToolCallsMiddleware.before_agent"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 1
+
+event: tasks
+data: {
+data:   "id": "7660a93f-70ff-5108-a583-1cdb2aca6b7c",
+data:   "name": "patchToolCallsMiddleware.before_agent",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "id": "__remove_all__",
+data:         "content": [],
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "type": "remove"
+data:       },
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "interrupts": []
+data: }
+id: 2
+
+event: tasks
+data: {
+data:   "id": "de7fc464-0646-5d21-a29c-f40ee27108a1",
+data:   "name": "SummarizationMiddleware.before_model",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "triggers": [
+data:     "branch:to:SummarizationMiddleware.before_model"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 3
+
+event: tasks
+data: {
+data:   "id": "de7fc464-0646-5d21-a29c-f40ee27108a1",
+data:   "name": "SummarizationMiddleware.before_model",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       }
+data:     ]
+data:   },
+data:   "interrupts": []
+data: }
+id: 4
+
+event: tasks
+data: {
+data:   "id": "d51a7bfa-d8ce-50ae-b1d4-88da3b5ac8ce",
+data:   "name": "model_request",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       }
+data:     ],
+data:     "todos": [],
+data:     "files": {}
+data:   },
+data:   "triggers": [
+data:     "branch:to:model_request"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 5
+
+event: tasks
+data: {
+data:   "id": "d51a7bfa-d8ce-50ae-b1d4-88da3b5ac8ce",
+data:   "name": "model_request",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我很乐意向你提问一些问题来更好地了解你。让我问几个不同方面的问题："
+data:           },
+data:           {
+data:             "index": 2,
+data:             "type": "tool_use",
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "name": "AskUserQuestion",
+data:             "input": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_20260118015024ab928317bb92497d",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "tool_use",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [
+data:           {
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "index": 2,
+data:             "name": "AskUserQuestion",
+data:             "args": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "id": "msg_20260118015024ab928317bb92497d",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 349,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [
+data:           {
+data:             "name": "AskUserQuestion",
+data:             "args": {
+data:               "questions": [
+data:                 {
+data:                   "question": "你目前最感兴趣的话题或领域是什么？",
+data:                   "header": "兴趣领域",
+data:                   "options": [
+data:                     {
+data:                       "label": "科技与创新",
+data:                       "description": "人工智能、编程、新技术趋势等"
+data:                     },
+data:                     {
+data:                       "label": "旅行与探索",
+data:                       "description": "旅游规划、地理文化、户外活动等"
+data:                     },
+data:                     {
+data:                       "label": "艺术与文化",
+data:                       "description": "音乐、电影、文学、历史等"
+data:                     },
+data:                     {
+data:                       "label": "生活与健康",
+data:                       "description": "美食、运动、心理健康、生活方式等"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你希望我如何帮助你？",
+data:                   "header": "帮助类型",
+data:                   "options": [
+data:                     {
+data:                       "label": "获取信息",
+data:                       "description": "回答问题、提供知识、搜索资料"
+data:                     },
+data:                     {
+data:                       "label": "完成任务",
+data:                       "description": "规划行程、做计算、处理数据等"
+data:                     },
+data:                     {
+data:                       "label": "创意思考",
+data:                       "description": "头脑风暴、写作、设计想法"
+data:                     },
+data:                     {
+data:                       "label": "学习辅导",
+data:                       "description": "解释概念、提供学习建议"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你更喜欢什么样的交流方式？",
+data:                   "header": "交流风格",
+data:                   "options": [
+data:                     {
+data:                       "label": "简洁直接",
+data:                       "description": "快速给出答案，重点突出"
+data:                     },
+data:                     {
+data:                       "label": "详细解释",
+data:                       "description": "深入分析，提供背景信息"
+data:                     },
+data:                     {
+data:                       "label": "轻松对话",
+data:                       "description": "友好互动，像朋友聊天"
+data:                     },
+data:                     {
+data:                       "label": "专业严谨",
+data:                       "description": "正式、准确、结构化"
+data:                     }
+data:                   ],
+data:                   "multiSelect": false
+data:                 }
+data:               ]
+data:             },
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "type": "tool_call"
+data:           }
+data:         ],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ]
+data:   },
+data:   "interrupts": []
+data: }
+id: 6
+
+event: tasks
+data: {
+data:   "id": "32b3f46e-5464-577c-a5af-cb1bc2af38c9",
+data:   "name": "todoListMiddleware.after_model",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       },
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我很乐意向你提问一些问题来更好地了解你。让我问几个不同方面的问题："
+data:           },
+data:           {
+data:             "index": 2,
+data:             "type": "tool_use",
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "name": "AskUserQuestion",
+data:             "input": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_20260118015024ab928317bb92497d",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "tool_use",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [
+data:           {
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "index": 2,
+data:             "name": "AskUserQuestion",
+data:             "args": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "id": "msg_20260118015024ab928317bb92497d",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 349,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [
+data:           {
+data:             "name": "AskUserQuestion",
+data:             "args": {
+data:               "questions": [
+data:                 {
+data:                   "question": "你目前最感兴趣的话题或领域是什么？",
+data:                   "header": "兴趣领域",
+data:                   "options": [
+data:                     {
+data:                       "label": "科技与创新",
+data:                       "description": "人工智能、编程、新技术趋势等"
+data:                     },
+data:                     {
+data:                       "label": "旅行与探索",
+data:                       "description": "旅游规划、地理文化、户外活动等"
+data:                     },
+data:                     {
+data:                       "label": "艺术与文化",
+data:                       "description": "音乐、电影、文学、历史等"
+data:                     },
+data:                     {
+data:                       "label": "生活与健康",
+data:                       "description": "美食、运动、心理健康、生活方式等"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你希望我如何帮助你？",
+data:                   "header": "帮助类型",
+data:                   "options": [
+data:                     {
+data:                       "label": "获取信息",
+data:                       "description": "回答问题、提供知识、搜索资料"
+data:                     },
+data:                     {
+data:                       "label": "完成任务",
+data:                       "description": "规划行程、做计算、处理数据等"
+data:                     },
+data:                     {
+data:                       "label": "创意思考",
+data:                       "description": "头脑风暴、写作、设计想法"
+data:                     },
+data:                     {
+data:                       "label": "学习辅导",
+data:                       "description": "解释概念、提供学习建议"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你更喜欢什么样的交流方式？",
+data:                   "header": "交流风格",
+data:                   "options": [
+data:                     {
+data:                       "label": "简洁直接",
+data:                       "description": "快速给出答案，重点突出"
+data:                     },
+data:                     {
+data:                       "label": "详细解释",
+data:                       "description": "深入分析，提供背景信息"
+data:                     },
+data:                     {
+data:                       "label": "轻松对话",
+data:                       "description": "友好互动，像朋友聊天"
+data:                     },
+data:                     {
+data:                       "label": "专业严谨",
+data:                       "description": "正式、准确、结构化"
+data:                     }
+data:                   ],
+data:                   "multiSelect": false
+data:                 }
+data:               ]
+data:             },
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "type": "tool_call"
+data:           }
+data:         ],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ],
+data:     "todos": []
+data:   },
+data:   "triggers": [
+data:     "branch:to:todoListMiddleware.after_model"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 7
+
+event: tasks
+data: {
+data:   "id": "32b3f46e-5464-577c-a5af-cb1bc2af38c9",
+data:   "name": "todoListMiddleware.after_model",
+data:   "result": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       },
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我很乐意向你提问一些问题来更好地了解你。让我问几个不同方面的问题："
+data:           },
+data:           {
+data:             "index": 2,
+data:             "type": "tool_use",
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "name": "AskUserQuestion",
+data:             "input": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_20260118015024ab928317bb92497d",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "tool_use",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [
+data:           {
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "index": 2,
+data:             "name": "AskUserQuestion",
+data:             "args": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "id": "msg_20260118015024ab928317bb92497d",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 349,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [
+data:           {
+data:             "name": "AskUserQuestion",
+data:             "args": {
+data:               "questions": [
+data:                 {
+data:                   "question": "你目前最感兴趣的话题或领域是什么？",
+data:                   "header": "兴趣领域",
+data:                   "options": [
+data:                     {
+data:                       "label": "科技与创新",
+data:                       "description": "人工智能、编程、新技术趋势等"
+data:                     },
+data:                     {
+data:                       "label": "旅行与探索",
+data:                       "description": "旅游规划、地理文化、户外活动等"
+data:                     },
+data:                     {
+data:                       "label": "艺术与文化",
+data:                       "description": "音乐、电影、文学、历史等"
+data:                     },
+data:                     {
+data:                       "label": "生活与健康",
+data:                       "description": "美食、运动、心理健康、生活方式等"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你希望我如何帮助你？",
+data:                   "header": "帮助类型",
+data:                   "options": [
+data:                     {
+data:                       "label": "获取信息",
+data:                       "description": "回答问题、提供知识、搜索资料"
+data:                     },
+data:                     {
+data:                       "label": "完成任务",
+data:                       "description": "规划行程、做计算、处理数据等"
+data:                     },
+data:                     {
+data:                       "label": "创意思考",
+data:                       "description": "头脑风暴、写作、设计想法"
+data:                     },
+data:                     {
+data:                       "label": "学习辅导",
+data:                       "description": "解释概念、提供学习建议"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你更喜欢什么样的交流方式？",
+data:                   "header": "交流风格",
+data:                   "options": [
+data:                     {
+data:                       "label": "简洁直接",
+data:                       "description": "快速给出答案，重点突出"
+data:                     },
+data:                     {
+data:                       "label": "详细解释",
+data:                       "description": "深入分析，提供背景信息"
+data:                     },
+data:                     {
+data:                       "label": "轻松对话",
+data:                       "description": "友好互动，像朋友聊天"
+data:                     },
+data:                     {
+data:                       "label": "专业严谨",
+data:                       "description": "正式、准确、结构化"
+data:                     }
+data:                   ],
+data:                   "multiSelect": false
+data:                 }
+data:               ]
+data:             },
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "type": "tool_call"
+data:           }
+data:         ],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ],
+data:     "todos": []
+data:   },
+data:   "interrupts": []
+data: }
+id: 8
+
+event: tasks
+data: {
+data:   "id": "48790766-7c2f-5cdc-9a9d-088ba06da7bd",
+data:   "name": "tools",
+data:   "input": {
+data:     "messages": [
+data:       {
+data:         "content": "向我提问一些问题",
+data:         "additional_kwargs": {},
+data:         "response_metadata": {},
+data:         "id": "5fbd63bf-c20e-4133-b168-a932c872b6bf",
+data:         "type": "human"
+data:       },
+data:       {
+data:         "content": [
+data:           {
+data:             "index": 0,
+data:             "type": "text",
+data:             "text": "你好！我很乐意向你提问一些问题来更好地了解你。让我问几个不同方面的问题："
+data:           },
+data:           {
+data:             "index": 2,
+data:             "type": "tool_use",
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "name": "AskUserQuestion",
+data:             "input": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "additional_kwargs": {
+data:           "id": "msg_20260118015024ab928317bb92497d",
+data:           "type": "message",
+data:           "role": "assistant",
+data:           "model": "glm-4.7",
+data:           "stop_reason": "tool_use",
+data:           "stop_sequence": null
+data:         },
+data:         "response_metadata": {
+data:           "model_provider": "anthropic",
+data:           "usage": {}
+data:         },
+data:         "tool_call_chunks": [
+data:           {
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "index": 2,
+data:             "name": "AskUserQuestion",
+data:             "args": "{\"questions\":[{\"question\": \"你目前最感兴趣的话题或领域是什么？\", \"header\": \"兴趣领域\", \"options\": [{\"label\": \"科技与创新\", \"description\": \"人工智能、编程、新技术趋势等\"}, {\"label\": \"旅行与探索\", \"description\": \"旅游规划、地理文化、户外活动等\"}, {\"label\": \"艺术与文化\", \"description\": \"音乐、电影、文学、历史等\"}, {\"label\": \"生活与健康\", \"description\": \"美食、运动、心理健康、生活方式等\"}], \"multiSelect\": true}, {\"question\": \"你希望我如何帮助你？\", \"header\": \"帮助类型\", \"options\": [{\"label\": \"获取信息\", \"description\": \"回答问题、提供知识、搜索资料\"}, {\"label\": \"完成任务\", \"description\": \"规划行程、做计算、处理数据等\"}, {\"label\": \"创意思考\", \"description\": \"头脑风暴、写作、设计想法\"}, {\"label\": \"学习辅导\", \"description\": \"解释概念、提供学习建议\"}], \"multiSelect\": true}, {\"question\": \"你更喜欢什么样的交流方式？\", \"header\": \"交流风格\", \"options\": [{\"label\": \"简洁直接\", \"description\": \"快速给出答案，重点突出\"}, {\"label\": \"详细解释\", \"description\": \"深入分析，提供背景信息\"}, {\"label\": \"轻松对话\", \"description\": \"友好互动，像朋友聊天\"}, {\"label\": \"专业严谨\", \"description\": \"正式、准确、结构化\"}], \"multiSelect\": false}]}"
+data:           }
+data:         ],
+data:         "id": "msg_20260118015024ab928317bb92497d",
+data:         "usage_metadata": {
+data:           "input_tokens": null,
+data:           "output_tokens": 349,
+data:           "total_tokens": null,
+data:           "input_token_details": {
+data:             "cache_read": 0
+data:           },
+data:           "output_token_details": {}
+data:         },
+data:         "tool_calls": [
+data:           {
+data:             "name": "AskUserQuestion",
+data:             "args": {
+data:               "questions": [
+data:                 {
+data:                   "question": "你目前最感兴趣的话题或领域是什么？",
+data:                   "header": "兴趣领域",
+data:                   "options": [
+data:                     {
+data:                       "label": "科技与创新",
+data:                       "description": "人工智能、编程、新技术趋势等"
+data:                     },
+data:                     {
+data:                       "label": "旅行与探索",
+data:                       "description": "旅游规划、地理文化、户外活动等"
+data:                     },
+data:                     {
+data:                       "label": "艺术与文化",
+data:                       "description": "音乐、电影、文学、历史等"
+data:                     },
+data:                     {
+data:                       "label": "生活与健康",
+data:                       "description": "美食、运动、心理健康、生活方式等"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你希望我如何帮助你？",
+data:                   "header": "帮助类型",
+data:                   "options": [
+data:                     {
+data:                       "label": "获取信息",
+data:                       "description": "回答问题、提供知识、搜索资料"
+data:                     },
+data:                     {
+data:                       "label": "完成任务",
+data:                       "description": "规划行程、做计算、处理数据等"
+data:                     },
+data:                     {
+data:                       "label": "创意思考",
+data:                       "description": "头脑风暴、写作、设计想法"
+data:                     },
+data:                     {
+data:                       "label": "学习辅导",
+data:                       "description": "解释概念、提供学习建议"
+data:                     }
+data:                   ],
+data:                   "multiSelect": true
+data:                 },
+data:                 {
+data:                   "question": "你更喜欢什么样的交流方式？",
+data:                   "header": "交流风格",
+data:                   "options": [
+data:                     {
+data:                       "label": "简洁直接",
+data:                       "description": "快速给出答案，重点突出"
+data:                     },
+data:                     {
+data:                       "label": "详细解释",
+data:                       "description": "深入分析，提供背景信息"
+data:                     },
+data:                     {
+data:                       "label": "轻松对话",
+data:                       "description": "友好互动，像朋友聊天"
+data:                     },
+data:                     {
+data:                       "label": "专业严谨",
+data:                       "description": "正式、准确、结构化"
+data:                     }
+data:                   ],
+data:                   "multiSelect": false
+data:                 }
+data:               ]
+data:             },
+data:             "id": "call_13c5fbf2123d44e4ac8020a9",
+data:             "type": "tool_call"
+data:           }
+data:         ],
+data:         "invalid_tool_calls": [],
+data:         "name": "model",
+data:         "type": "ai"
+data:       }
+data:     ],
+data:     "todos": [],
+data:     "files": {},
+data:     "lg_tool_call": {
+data:       "name": "AskUserQuestion",
+data:       "args": {
+data:         "questions": [
+data:           {
+data:             "question": "你目前最感兴趣的话题或领域是什么？",
+data:             "header": "兴趣领域",
+data:             "options": [
+data:               {
+data:                 "label": "科技与创新",
+data:                 "description": "人工智能、编程、新技术趋势等"
+data:               },
+data:               {
+data:                 "label": "旅行与探索",
+data:                 "description": "旅游规划、地理文化、户外活动等"
+data:               },
+data:               {
+data:                 "label": "艺术与文化",
+data:                 "description": "音乐、电影、文学、历史等"
+data:               },
+data:               {
+data:                 "label": "生活与健康",
+data:                 "description": "美食、运动、心理健康、生活方式等"
+data:               }
+data:             ],
+data:             "multiSelect": true
+data:           },
+data:           {
+data:             "question": "你希望我如何帮助你？",
+data:             "header": "帮助类型",
+data:             "options": [
+data:               {
+data:                 "label": "获取信息",
+data:                 "description": "回答问题、提供知识、搜索资料"
+data:               },
+data:               {
+data:                 "label": "完成任务",
+data:                 "description": "规划行程、做计算、处理数据等"
+data:               },
+data:               {
+data:                 "label": "创意思考",
+data:                 "description": "头脑风暴、写作、设计想法"
+data:               },
+data:               {
+data:                 "label": "学习辅导",
+data:                 "description": "解释概念、提供学习建议"
+data:               }
+data:             ],
+data:             "multiSelect": true
+data:           },
+data:           {
+data:             "question": "你更喜欢什么样的交流方式？",
+data:             "header": "交流风格",
+data:             "options": [
+data:               {
+data:                 "label": "简洁直接",
+data:                 "description": "快速给出答案，重点突出"
+data:               },
+data:               {
+data:                 "label": "详细解释",
+data:                 "description": "深入分析，提供背景信息"
+data:               },
+data:               {
+data:                 "label": "轻松对话",
+data:                 "description": "友好互动，像朋友聊天"
+data:               },
+data:               {
+data:                 "label": "专业严谨",
+data:                 "description": "正式、准确、结构化"
+data:               }
+data:             ],
+data:             "multiSelect": false
+data:           }
+data:         ]
+data:       },
+data:       "id": "call_13c5fbf2123d44e4ac8020a9",
+data:       "type": "tool_call"
+data:     }
+data:   },
+data:   "triggers": [
+data:     "__pregel_push"
+data:   ],
+data:   "interrupts": []
+data: }
+id: 9
+
+event: tasks
+data: {
+data:   "id": "48790766-7c2f-5cdc-9a9d-088ba06da7bd",
+data:   "name": "tools",
+data:   "result": {},
+data:   "interrupts": [
+data:     {
+data:       "id": "5270b2e7028a3b66213d045a7d0de001",
+data:       "value": {
+data:         "type": "AskUserQuestion",
+data:         "questions": [
+data:           {
+data:             "question": "你目前最感兴趣的话题或领域是什么？",
+data:             "header": "兴趣领域",
+data:             "options": [
+data:               {
+data:                 "label": "科技与创新",
+data:                 "description": "人工智能、编程、新技术趋势等"
+data:               },
+data:               {
+data:                 "label": "旅行与探索",
+data:                 "description": "旅游规划、地理文化、户外活动等"
+data:               },
+data:               {
+data:                 "label": "艺术与文化",
+data:                 "description": "音乐、电影、文学、历史等"
+data:               },
+data:               {
+data:                 "label": "生活与健康",
+data:                 "description": "美食、运动、心理健康、生活方式等"
+data:               }
+data:             ],
+data:             "multiSelect": true
+data:           },
+data:           {
+data:             "question": "你希望我如何帮助你？",
+data:             "header": "帮助类型",
+data:             "options": [
+data:               {
+data:                 "label": "获取信息",
+data:                 "description": "回答问题、提供知识、搜索资料"
+data:               },
+data:               {
+data:                 "label": "完成任务",
+data:                 "description": "规划行程、做计算、处理数据等"
+data:               },
+data:               {
+data:                 "label": "创意思考",
+data:                 "description": "头脑风暴、写作、设计想法"
+data:               },
+data:               {
+data:                 "label": "学习辅导",
+data:                 "description": "解释概念、提供学习建议"
+data:               }
+data:             ],
+data:             "multiSelect": true
+data:           },
+data:           {
+data:             "question": "你更喜欢什么样的交流方式？",
+data:             "header": "交流风格",
+data:             "options": [
+data:               {
+data:                 "label": "简洁直接",
+data:                 "description": "快速给出答案，重点突出"
+data:               },
+data:               {
+data:                 "label": "详细解释",
+data:                 "description": "深入分析，提供背景信息"
+data:               },
+data:               {
+data:                 "label": "轻松对话",
+data:                 "description": "友好互动，像朋友聊天"
+data:               },
+data:               {
+data:                 "label": "专业严谨",
+data:                 "description": "正式、准确、结构化"
+data:               }
+data:             ],
+data:             "multiSelect": false
+data:           }
+data:         ],
+data:         "metadata": {}
+data:       }
+data:     }
+data:   ]
+data: }
+id: 10
+
