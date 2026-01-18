@@ -9,8 +9,12 @@
 ///
 /// Use [parseStreamEventData] to convert raw [SseEvent] objects into
 /// [ParsedStreamEvent] instances.
+///
+/// For task events, use [parseTaskEventData] to convert raw [SseEvent] objects
+/// into [ParsedTaskEvent] instances.
 library;
 
 export 'message.dart';
 export 'metadata.dart';
 export 'stream_event.dart';
+export 'task.dart';

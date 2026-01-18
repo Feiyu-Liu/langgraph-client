@@ -313,6 +313,8 @@ await for (final event in client.streamStatefulRun(
 
 #### 流式事件数据模型
 
+##### 消息事件类型 (event: messages)
+
 | 类型 | 说明 |
 |------|------|
 | `ParsedStreamEvent` | 解析后的流式事件，包含 message 和 metadata |
@@ -325,6 +327,16 @@ await for (final event in client.streamStatefulRun(
 | `InvalidToolCall` | 错误的工具调用，包含 name、args、error、type |
 | `UsageMetadata` | Token 使用元数据，包含 inputTokens、outputTokens、totalTokens |
 | `ToolUseContent` | 工具使用内容辅助类，包含 index、id、name、input |
+
+##### 任务事件类型 (event: tasks)
+
+| 类型 | 说明 |
+|------|------|
+| `ParsedTaskEvent` | 解析后的任务事件，包含 task |
+| `TaskEvent` | 任务事件对象，包含 id、name、input/result、triggers、interrupts |
+| `TaskInput` | 任务输入数据，包含 messages、todos、files |
+| `TaskResult` | 任务结果数据，包含 messages |
+| `TaskInterrupt` | 任务中断对象，包含 id、value |
 
 #### StreamMessage 便捷方法
 
@@ -363,6 +375,115 @@ if (parsed.message.usageMetadata != null) {
   print('Input tokens: ${parsed.message.usageMetadata!.inputTokens}');
   print('Output tokens: ${parsed.message.usageMetadata!.outputTokens}');
   print('Total tokens: ${parsed.message.usageMetadata!.totalTokens}');
+}
+```
+
+#### 解析任务事件数据
+
+LangGraph SSE 流还支持 `streamMode: 'tasks'` 模式，返回任务级别的事件。使用 `parseTaskEventData()` 函数可以解析任务事件。
+
+```dart
+await for (final event in client.streamStatefulRun(
+  'thread-id',
+  RunCreateStateful(
+    assistantId: 'assistant-id',
+    input: {'messages': [{'role': 'user', 'content': 'Hello'}]},
+    streamMode: 'tasks', // 启用任务流模式
+  ),
+)) {
+  // 解析任务事件
+  final taskParsed = parseTaskEventData(event);
+  if (taskParsed != null) {
+    final task = taskParsed.task;
+
+    print('Task ID: ${task.id}');
+    print('Task Name: ${task.name}');
+
+    // 检查任务类型
+    if (task.isInputTask) {
+      print('This is an input task');
+      print('Messages: ${task.input!.messages.length}');
+      print('Todos: ${task.input!.todos}');
+      print('Files: ${task.input!.files}');
+    }
+
+    if (task.isResultTask) {
+      print('This is a result task');
+      print('Messages: ${task.result!.messages.length}');
+    }
+
+    // 检查中断
+    if (task.hasInterrupts) {
+      print('Task has ${task.interrupts.length} interrupts');
+      for (final interrupt in task.interrupts) {
+        print('Interrupt ID: ${interrupt.id}');
+        print('Interrupt Value: ${interrupt.value}');
+      }
+    }
+
+    // 检查特定任务类型
+    if (task.isModelRequest) {
+      print('This is a model request task');
+    }
+
+    if (task.isToolsTask) {
+      print('This is a tools task');
+    }
+
+    // 访问触发器
+    print('Triggers: ${task.triggers}');
+  }
+}
+```
+
+#### TaskEvent 便捷方法
+
+```dart
+// 检查任务类型
+if (task.isInputTask) {
+  print('Has input data');
+}
+
+if (task.isResultTask) {
+  print('Has result data');
+}
+
+if (task.hasInterrupts) {
+  print('Has ${task.interrupts.length} interrupts');
+}
+
+// 检查特定任务名称
+if (task.isModelRequest) {
+  print('Model request task');
+}
+
+if (task.isToolsTask) {
+  print('Tools execution task');
+}
+
+// 访问任务输入中的消息
+if (task.input != null) {
+  for (final message in task.input!.messages) {
+    print('Message type: ${message.type}');
+    if (message.isAiMessage) {
+      print('AI message: ${message.firstText}');
+    }
+  }
+}
+
+// 访问任务结果中的消息
+if (task.result != null) {
+  for (final message in task.result!.messages) {
+    print('Result message: ${message.firstText}');
+  }
+}
+
+// 访问中断详情
+for (final interrupt in task.interrupts) {
+  print('Interrupt: ${interrupt.id}');
+  interrupt.value.forEach((key, value) {
+    print('  $key: $value');
+  });
 }
 ```
 
@@ -628,6 +749,8 @@ try {
 
 ### 流式事件数据类型
 
+#### 消息事件类型 (event: messages)
+
 | 类型 | 说明 |
 |------|------|
 | `ParsedStreamEvent` | 解析后的 SSE 流式事件，包含 message 和 metadata |
@@ -640,6 +763,16 @@ try {
 | `InvalidToolCall` | 错误的工具调用，包含 name、args、error、type |
 | `UsageMetadata` | Token 使用元数据，包含 inputTokens、outputTokens、totalTokens |
 | `ToolUseContent` | 工具使用内容辅助类，包含 index、id、name、input |
+
+#### 任务事件类型 (event: tasks)
+
+| 类型 | 说明 |
+|------|------|
+| `ParsedTaskEvent` | 解析后的任务事件，包含 task |
+| `TaskEvent` | 任务事件对象，包含 id、name、input/result、triggers、interrupts |
+| `TaskInput` | 任务输入数据，包含 messages、todos、files |
+| `TaskResult` | 任务结果数据，包含 messages |
+| `TaskInterrupt` | 任务中断对象，包含 id、value |
 
 ### 请求模型
 

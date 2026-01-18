@@ -17,12 +17,12 @@ void streamStatefulRun() async {
     input: {
       'messages': [
         {
-          'content': '武汉天气怎么样',
+          'content': '向我问一些问题',
           'role': 'user',
         },
       ]
     },
-    streamMode: 'messages-tuple',
+    streamMode: ['messages-tuple', 'tasks']
   );
 
   // Store pending tool calls to match with results
@@ -30,72 +30,58 @@ void streamStatefulRun() async {
 
   await for (final sseEvent
       in client.streamStatefulRun(thread.threadId, statefulRequest)) {
-    // Debug: print raw event data
-    final dataPreview = sseEvent.data != null && sseEvent.data!.length > 100
-        ? '${sseEvent.data!.substring(0, 100)}...'
-        : sseEvent.data;
-    print('📨 Data: $dataPreview');
+    // Try parsing as a message event first
+    final messageParsed = parseStreamEventData(sseEvent);
+    if (messageParsed != null) {
+      final message = messageParsed.message;
 
-    // Parse the SSE event using the new stream event models
-    final parsed = parseStreamEventData(sseEvent);
-    if (parsed != null) {
-      final message = parsed.message;
-      print('   ✅ Parsed: type=${message.type}, isTool=${message.isToolMessage}, toolCallId=${message.toolCallId}');
-
-      // Stage 1: AI declares tool calls
+      // Stage 1: AI declares tool calls - print tool names
       if (message.isAiMessage && message.allToolCalls.isNotEmpty) {
         for (final toolCall in message.allToolCalls) {
-          print('🔧 Tool Call:');
-          print('   Name: ${toolCall.name}');
-          print('   Args: ${toolCall.args}');
-          print('   ID: ${toolCall.id}');
+          print('🔧 Tool Call: ${toolCall.name}');
           // Store for matching with results later
           pendingToolCalls[toolCall.id] = toolCall;
         }
       }
 
-      // Stage 2: Tool execution results
+      // Stage 2: Tool execution results - print tool results
       if (message.isToolMessage) {
-        print('🔍 Found tool message!');
-        print('   toolCallId: ${message.toolCallId}');
-        print('   status: ${message.status}');
-        print('   content length: ${message.content.length}');
-
         final toolCallId = message.toolCallId;
         if (toolCallId != null && pendingToolCalls.containsKey(toolCallId)) {
           final originalCall = pendingToolCalls[toolCallId]!;
-          print('✅ Tool Result:');
-          print('   Name: ${originalCall.name}');
-          print('   Status: ${message.status ?? "unknown"}');
-
           // Extract tool result from content
           final result = message.content
               .where((c) => c.text != null)
               .map((c) => c.text!)
               .join('');
+          print('✅ Tool Result: ${originalCall.name}');
           if (result.isNotEmpty) {
             print('   Result: $result');
           }
 
           // Remove completed call
           pendingToolCalls.remove(toolCallId);
-        } else {
-          print('⚠️ Tool result but no matching call found');
-          print('   Pending calls: ${pendingToolCalls.keys}');
         }
       }
 
-      // Print text content (non-tool messages)
-      if (message.isAiMessage && message.allToolCalls.isEmpty) {
-        final text = message.firstText;
-        if (text != null) {
-          // print(text);
+      continue;
+    }
+
+    // If not a message event, try parsing as a task event
+    final taskParsed = parseTaskEventData(sseEvent);
+    if (taskParsed != null) {
+      final task = taskParsed.task;
+
+      // Only print task interrupt information
+      if (task.hasInterrupts) {
+        print('⚠️ Task Interrupts (${task.interrupts.length}):');
+        for (final interrupt in task.interrupts) {
+          print('   ID: ${interrupt.id}');
+          print('   Value: ${interrupt.value}');
         }
       }
-    } else {
-      // If parsing failed, print the raw event
-      print('   ❌ Failed to parse');
+
+      continue;
     }
-    print('');
   }
 }
