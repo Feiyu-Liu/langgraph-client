@@ -4,6 +4,7 @@ import 'package:sse_stream/sse_stream.dart';
 
 import 'client.dart';
 import '../models/run.dart';
+import '../streaming/streaming.dart';
 
 extension ThreadRunsApi on LangGraphClient {
   Future<List<Run>> listStatefulRuns(
@@ -18,8 +19,9 @@ extension ThreadRunsApi on LangGraphClient {
       };
 
       final response = await client.get(
-        Uri.parse('$baseUrl/threads/$threadId/runs')
-            .replace(queryParameters: queryParams),
+        Uri.parse(
+          '$baseUrl/threads/$threadId/runs',
+        ).replace(queryParameters: queryParams),
         headers: headers,
       );
 
@@ -27,10 +29,7 @@ extension ThreadRunsApi on LangGraphClient {
         final List<dynamic> data = jsonDecode(response.body);
         return data.map((json) => Run.fromJson(json)).toList();
       }
-      throw LangGraphApiException(
-        'Failed to list runs',
-        response.statusCode,
-      );
+      throw LangGraphApiException('Failed to list runs', response.statusCode);
     } catch (e) {
       if (e is LangGraphApiException) rethrow;
       throw LangGraphApiException('Failed to list runs: $e');
@@ -62,28 +61,27 @@ extension ThreadRunsApi on LangGraphClient {
     }
   }
 
-  /// Create a run in existing thread. Stream the output.
-  Stream<SseEvent> streamStatefulRun(
+  /// Create a run in existing thread and stream structured events.
+  Stream<LangGraphStreamEvent> streamStatefulRun(
     String threadId,
     RunCreateStateful request,
   ) async* {
     try {
-      final req = http.Request(
-        'POST',
-        Uri.parse('$baseUrl/threads/$threadId/runs/stream'),
-      )
-        ..headers.addAll(headers)
-        ..body = jsonEncode(request.toJson());
+      final req =
+          http.Request(
+              'POST',
+              Uri.parse('$baseUrl/threads/$threadId/runs/stream'),
+            )
+            ..headers.addAll(headers)
+            ..body = jsonEncode(request.toJson());
 
       final response = await client.send(req);
 
       if (response.statusCode == 200) {
-        // Get the response as a stream of bytes and transform it
-        await for (final chunk in response.stream
+        final rawEvents = response.stream
             .transform(utf8.decoder)
-            .transform(const SseEventTransformer())) {
-          yield chunk;
-        }
+            .transform(const SseEventTransformer());
+        yield* parseLangGraphEventStream(rawEvents);
       } else {
         throw LangGraphApiException(
           'Failed to stream run',
@@ -94,6 +92,14 @@ extension ThreadRunsApi on LangGraphClient {
       if (e is LangGraphApiException) rethrow;
       throw LangGraphApiException('Failed to stream run: $e');
     }
+  }
+
+  /// High-level conversation stream for a stateful run.
+  Stream<ConversationStreamEvent> runStatefulConversationStream(
+    String threadId,
+    RunCreateStateful request,
+  ) {
+    return toConversationStreamEvents(streamStatefulRun(threadId, request));
   }
 
   /// Create a run in existing thread. Wait for the final output and then return it.
@@ -132,10 +138,7 @@ extension ThreadRunsApi on LangGraphClient {
       if (response.statusCode == 200) {
         return Run.fromJson(jsonDecode(response.body));
       }
-      throw LangGraphApiException(
-        'Failed to get run',
-        response.statusCode,
-      );
+      throw LangGraphApiException('Failed to get run', response.statusCode);
     } catch (e) {
       if (e is LangGraphApiException) rethrow;
       throw LangGraphApiException('Failed to get run: $e');
@@ -149,14 +152,12 @@ extension ThreadRunsApi on LangGraphClient {
     String action = 'interrupt',
   }) async {
     try {
-      final queryParams = {
-        'wait': wait.toString(),
-        'action': action,
-      };
+      final queryParams = {'wait': wait.toString(), 'action': action};
 
       final response = await client.post(
-        Uri.parse('$baseUrl/threads/$threadId/runs/$runId/cancel')
-            .replace(queryParameters: queryParams),
+        Uri.parse(
+          '$baseUrl/threads/$threadId/runs/$runId/cancel',
+        ).replace(queryParameters: queryParams),
         headers: headers,
       );
 
@@ -199,9 +200,9 @@ extension ThreadRunsApi on LangGraphClient {
   /// [threadId] is the ID of the thread the run belongs to.
   /// [runId] is the ID of the run to join.
   ///
-  /// Returns a stream of server-sent events from the run.
+  /// Returns a stream of structured events from the run.
   /// Throws [LangGraphApiException] if the request fails.
-  Stream<SseEvent> joinStatefulRunStream(
+  Stream<LangGraphStreamEvent> joinStatefulRunStream(
     String threadId,
     String runId,
   ) async* {
@@ -214,12 +215,10 @@ extension ThreadRunsApi on LangGraphClient {
       final response = await client.send(req);
 
       if (response.statusCode == 200) {
-        // Get the response as a stream of bytes and transform it
-        await for (final chunk in response.stream
+        final rawEvents = response.stream
             .transform(utf8.decoder)
-            .transform(const SseEventTransformer())) {
-          yield chunk;
-        }
+            .transform(const SseEventTransformer());
+        yield* parseLangGraphEventStream(rawEvents);
       } else {
         throw LangGraphApiException(
           'Failed to join run stream',
@@ -232,6 +231,14 @@ extension ThreadRunsApi on LangGraphClient {
     }
   }
 
+  /// High-level conversation stream for joining an in-progress run.
+  Stream<ConversationStreamEvent> joinStatefulConversationStream(
+    String threadId,
+    String runId,
+  ) {
+    return toConversationStreamEvents(joinStatefulRunStream(threadId, runId));
+  }
+
   /// Streams an existing run from the beginning.
   ///
   /// This replays all events for an existing run from the start.
@@ -239,9 +246,9 @@ extension ThreadRunsApi on LangGraphClient {
   /// [threadId] is the ID of the thread the run belongs to.
   /// [runId] is the ID of the run to stream.
   ///
-  /// Returns a stream of server-sent events from the run.
+  /// Returns a stream of structured events from the run.
   /// Throws [LangGraphApiException] if the request fails.
-  Stream<SseEvent> streamExistingStatefulRun(
+  Stream<LangGraphStreamEvent> streamExistingStatefulRun(
     String threadId,
     String runId,
   ) async* {
@@ -254,12 +261,10 @@ extension ThreadRunsApi on LangGraphClient {
       final response = await client.send(req);
 
       if (response.statusCode == 200) {
-        // Get the response as a stream of bytes and transform it
-        await for (final chunk in response.stream
+        final rawEvents = response.stream
             .transform(utf8.decoder)
-            .transform(const SseEventTransformer())) {
-          yield chunk;
-        }
+            .transform(const SseEventTransformer());
+        yield* parseLangGraphEventStream(rawEvents);
       } else {
         throw LangGraphApiException(
           'Failed to stream existing run',
@@ -270,5 +275,15 @@ extension ThreadRunsApi on LangGraphClient {
       if (e is LangGraphApiException) rethrow;
       throw LangGraphApiException('Failed to stream existing run: $e');
     }
+  }
+
+  /// High-level conversation stream for replaying a historical run.
+  Stream<ConversationStreamEvent> streamExistingStatefulConversation(
+    String threadId,
+    String runId,
+  ) {
+    return toConversationStreamEvents(
+      streamExistingStatefulRun(threadId, runId),
+    );
   }
 }

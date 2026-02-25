@@ -4,6 +4,7 @@ import 'package:sse_stream/sse_stream.dart';
 
 import 'client.dart';
 import '../models/run.dart';
+import '../streaming/streaming.dart';
 
 /// Stateless Runs API Extension
 extension StatelessRunsApi on LangGraphClient {
@@ -30,7 +31,7 @@ extension StatelessRunsApi on LangGraphClient {
     }
   }
 
-  Stream<SseEvent> streamRun(RunCreateStateless request) async* {
+  Stream<LangGraphStreamEvent> streamRun(RunCreateStateless request) async* {
     try {
       final streamedRequest = http.Request(
         'POST',
@@ -49,15 +50,20 @@ extension StatelessRunsApi on LangGraphClient {
         );
       }
 
-      await for (final chunk in response.stream
+      final rawEvents = response.stream
           .transform(utf8.decoder)
-          .transform(const SseEventTransformer())) {
-        yield chunk;
-      }
+          .transform(const SseEventTransformer());
+      yield* parseLangGraphEventStream(rawEvents);
     } catch (e) {
       if (e is LangGraphApiException) rethrow;
       throw LangGraphApiException('Failed to stream run: $e');
     }
+  }
+
+  Stream<ConversationStreamEvent> runStatelessConversationStream(
+    RunCreateStateless request,
+  ) {
+    return toConversationStreamEvents(streamRun(request));
   }
 
   Future<Map<String, dynamic>> waitForRun(RunCreateStateless request) async {
@@ -119,14 +125,12 @@ extension StatelessRunsApi on LangGraphClient {
     String action = 'interrupt',
   }) async {
     try {
-      final queryParams = {
-        'wait': wait.toString(),
-        'action': action,
-      };
+      final queryParams = {'wait': wait.toString(), 'action': action};
 
       final response = await client.post(
-        Uri.parse('$baseUrl/runs/cancel')
-            .replace(queryParameters: {...queryParams, 'run_id': runId}),
+        Uri.parse(
+          '$baseUrl/runs/cancel',
+        ).replace(queryParameters: {...queryParams, 'run_id': runId}),
         headers: headers,
       );
 

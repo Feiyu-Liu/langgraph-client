@@ -18,7 +18,7 @@ void main() {
           "additional_kwargs": {},
           "response_metadata": {},
           "id": "run-019bcb93-e662-7000-8000-0d0df6c7f88e",
-          "type": "tool"
+          "type": "tool",
         },
         {
           "tags": ["graph:step:5"],
@@ -34,13 +34,13 @@ void main() {
           "assistant_id": "2a35ed90-9273-4c9b-9d3e-477e1e18177e",
           "langgraph_step": 5,
           "langgraph_node": "tools",
-        }
+        },
       ]);
 
       // Simulate parsing
       final parsed = jsonDecode(sseData) as List;
       final message = StreamMessage.fromJson(parsed[0] as Map<String, dynamic>);
-      final metadata = StreamMetadata.fromJson(parsed[1] as Map<String, dynamic>);
+      StreamMetadata.fromJson(parsed[1] as Map<String, dynamic>);
 
       expect(message.type, equals('tool'));
       expect(message.isToolMessage, isTrue);
@@ -56,24 +56,21 @@ void main() {
       final sseData = jsonEncode([
         {
           "content": [
-            {"index": 0, "type": "text", "text": "Let me check the weather."}
+            {"index": 0, "type": "text", "text": "Let me check the weather."},
           ],
           "additional_kwargs": {},
-          "response_metadata": {
-            "model_provider": "anthropic",
-            "usage": {}
-          },
+          "response_metadata": {"model_provider": "anthropic", "usage": {}},
           "tool_calls": [
             {
               "name": "maps_weather",
               "args": {"city": "武汉"},
               "id": "call_f57fd77c7f5940d097706fba",
-              "type": "tool_call"
-            }
+              "type": "tool_call",
+            },
           ],
           "invalid_tool_calls": [],
           "id": "msg_123",
-          "type": "ai"
+          "type": "ai",
         },
         {
           "tags": ["graph:step:1"],
@@ -88,7 +85,7 @@ void main() {
           "assistant_id": "assistant-123",
           "langgraph_step": 1,
           "langgraph_node": "agent",
-        }
+        },
       ]);
 
       final parsed = jsonDecode(sseData) as List;
@@ -129,10 +126,7 @@ void main() {
 
       // Verify matching works
       expect(resultMessage.isToolMessage, isTrue);
-      expect(
-        pendingToolCalls.containsKey(resultMessage.toolCallId!),
-        isTrue,
-      );
+      expect(pendingToolCalls.containsKey(resultMessage.toolCallId!), isTrue);
 
       final originalCall = pendingToolCalls[resultMessage.toolCallId!]!;
       expect(originalCall.name, equals('maps_weather'));

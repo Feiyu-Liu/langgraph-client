@@ -5,7 +5,7 @@ import 'message.dart';
 
 part 'task.g.dart';
 
-/// Helper function to safely cast Map<dynamic, dynamic> to Map<String, dynamic>
+/// Helper function to safely cast `Map<dynamic, dynamic>` to `Map<String, dynamic>`.
 Map<String, dynamic> _castMap(dynamic map) {
   if (map == null) return {};
   if (map is! Map) return {};
@@ -28,7 +28,7 @@ dynamic _convertDynamic(dynamic value) {
   return value;
 }
 
-/// Helper function to safely convert a dynamic map to Map<String, dynamic>
+/// Helper function to safely convert a dynamic map to `Map<String, dynamic>`
 /// for use with StreamMessage.fromJson
 Map<String, dynamic> _convertToMapStringDynamic(dynamic value) {
   if (value == null) return {};
@@ -49,13 +49,9 @@ class TaskInput {
   final List<dynamic> todos;
   final Map<String, dynamic> files;
 
-  TaskInput({
-    required this.messages,
-    required this.todos,
-    required this.files,
-  });
+  TaskInput({required this.messages, required this.todos, required this.files});
 
-  /// Custom fromJson to handle Map<dynamic, dynamic> casting
+  /// Custom fromJson to handle `Map<dynamic, dynamic>` casting
   factory TaskInput.fromJson(Map<String, dynamic> json) {
     // Cast files Map from dynamic to Map<String, dynamic>
     final filesCast = _castMap(json['files']);
@@ -69,11 +65,7 @@ class TaskInput {
     // Parse todos
     final todosData = json['todos'] as List;
 
-    return TaskInput(
-      messages: messages,
-      todos: todosData,
-      files: filesCast,
-    );
+    return TaskInput(messages: messages, todos: todosData, files: filesCast);
   }
 
   Map<String, dynamic> toJson() => _$TaskInputToJson(this);
@@ -84,23 +76,19 @@ class TaskInput {
 class TaskResult {
   final List<StreamMessage> messages;
 
-  TaskResult({
-    required this.messages,
-  });
+  TaskResult({required this.messages});
 
-  /// Custom fromJson to handle Map<dynamic, dynamic> casting
+  /// Custom fromJson to handle `Map<dynamic, dynamic>` casting
   factory TaskResult.fromJson(Map<String, dynamic> json) {
     // Parse messages - handle empty result objects
     final messagesData = json['messages'] as List?;
     final messages = messagesData == null
         ? <StreamMessage>[]
         : messagesData
-            .map((e) => StreamMessage.fromJson(_convertToMapStringDynamic(e)))
-            .toList();
+              .map((e) => StreamMessage.fromJson(_convertToMapStringDynamic(e)))
+              .toList();
 
-    return TaskResult(
-      messages: messages,
-    );
+    return TaskResult(messages: messages);
   }
 
   Map<String, dynamic> toJson() => _$TaskResultToJson(this);
@@ -112,12 +100,9 @@ class TaskInterrupt {
   final String id;
   final Map<String, dynamic> value;
 
-  TaskInterrupt({
-    required this.id,
-    required this.value,
-  });
+  TaskInterrupt({required this.id, required this.value});
 
-  /// Custom fromJson to handle Map<dynamic, dynamic> casting
+  /// Custom fromJson to handle `Map<dynamic, dynamic>` casting
   factory TaskInterrupt.fromJson(Map<String, dynamic> json) {
     return TaskInterrupt(
       id: json['id'] as String,

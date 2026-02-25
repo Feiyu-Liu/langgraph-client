@@ -1,7 +1,8 @@
 name: langgraph_client
 description: A Dart client for the LangGraph API that enables applications to interact with LangGraph services, threads, assistants, runs, and crons with support for streaming operations.
 repository: https://github.com/EsotericTech/langgraph-client
-version: 0.2.2
+publish_to: none
+version: 1.0.0
 
 environment:
   sdk: ^3.8.0

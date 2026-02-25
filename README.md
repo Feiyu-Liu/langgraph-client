@@ -1,11 +1,14 @@
 # LangGraph Client
 
-The `langgraph_client` package is a Dart package that provides a client for the LangGraph API. It is based off the LangGraph `v.0.1.0` OpenAPI specification.
-Both this package and the API itself are still in development and are subject to change.
+`langgraph_client` is a Dart client for the LangGraph API with high-level streaming abstractions for Flutter/Dart apps.
 
 ## Features
 
-The package supports the most vital APIs necessary to interact with the LangGraph API, but does not yet support the entire catalog of endpoints. Support for additional endpoints will be added in the near future.
+The package provides:
+- Assistant/Thread/Run/Store/Cron APIs
+- Typed streaming events (`LangGraphStreamEvent`)
+- High-level conversation streaming (`ConversationStreamEvent`)
+- Built-in parsing for text deltas, tool calls, interrupts, and completion
 
 ## Getting started
 
@@ -13,59 +16,51 @@ Add the following to your **pubspec.yaml**:
 
 ```
 dependencies:
-  langgraph_client: "^0.1.0"
+  langgraph_client: ^1.0.0
 ```
 
 ## Usage
 
-Create an instance of the client:
+Create client and request:
 
 ```dart
-var client = LangGraphClient(
-  baseUrl: 'http://localhost:52273', // Replace with your LangGraph API URL
+final client = LangGraphClient(
+  baseUrl: 'http://localhost:2024',
 );
-```
 
-Create the input:
+final thread = await client.createThread();
 
-```dart
-
-Thread thread = await client.createThread();
-
-var statefulRequest = RunCreateStateful(
+final request = RunCreateStateful(
   assistantId: 'my-langgraph-agent',
   input: {
     'messages': [
-      {
-        'content': 'Write a Hello World program in Dart',
-        'role': 'user',
-      },
+      {'content': 'Hello!', 'role': 'user'},
     ]
   },
-  streamMode: 'messages',
+  streamMode: ['messages-tuple', 'tasks'],
+  streamSubgraphs: true,
 );
-
 ```
 
-Call the endpoint:
+Recommended high-level conversation stream:
 
 ```dart
-await for (final sseEvent in client.streamStatefulRun(thread.Id, statefulRequest)) {
-  print(sseEvent);
+await for (final event in client.runStatefulConversationStream(
+  thread.threadId,
+  request,
+)) {
+  if (event is ConversationTextDeltaEvent) {
+    print(event.text);
+  } else if (event is ConversationInterruptEvent) {
+    print(event.interrupt.value);
+  } else if (event is ConversationCompletedEvent) {
+    break;
+  }
 }
 ```
 
-## Social Media
-
-#### LinkedIn:
-https://www.linkedin.com/in/gerald-parker-b7948050/
-
-
-#### Youtube:
-https://www.youtube.com/@esoterictech
-
 ## Additional information
 
-For more information refer to the LangGraph documentation:
+For details, refer to:
 - [LangGraph API Specification](https://langchain-ai.github.io/langgraph/cloud/reference/api/api_ref.html)
 - [Stream Modes](https://langchain-ai.github.io/langgraph/concepts/streaming/)

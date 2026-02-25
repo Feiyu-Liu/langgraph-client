@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:langgraph_client/langgraph_client.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sse_stream/sse_stream.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
@@ -54,11 +53,12 @@ void main() {
           },
         ];
 
-        when(mockClient.get(
-          Uri.parse('$baseUrl/threads/thread_123/runs?limit=10&offset=0'),
-          headers: client.headers,
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.get(
+            Uri.parse('$baseUrl/threads/thread_123/runs?limit=10&offset=0'),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final results = await client.listStatefulRuns('thread_123');
 
@@ -67,22 +67,31 @@ void main() {
         expect(results[0].runId, equals('run_1'));
         expect(results[1].runId, equals('run_2'));
 
-        verify(mockClient.get(
-          Uri.parse('$baseUrl/threads/thread_123/runs?limit=10&offset=0'),
-          headers: client.headers,
-        )).called(1);
+        verify(
+          mockClient.get(
+            Uri.parse('$baseUrl/threads/thread_123/runs?limit=10&offset=0'),
+            headers: client.headers,
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.get(
-          Uri.parse('$baseUrl/threads/thread_123/runs?limit=10&offset=0'),
-          headers: client.headers,
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.get(
+            Uri.parse('$baseUrl/threads/thread_123/runs?limit=10&offset=0'),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
         expect(
           () => client.listStatefulRuns('thread_123'),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -101,47 +110,57 @@ void main() {
           'multitask_strategy': 'reject',
         };
 
-        when(mockClient.post(
-          Uri.parse('$baseUrl/threads/thread_123/runs'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/threads/thread_123/runs'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final request = RunCreateStateful(
           assistantId: 'assistant_123',
           input: {'key': 'value'},
         );
 
-        final result =
-            await client.createStatefulBackgroundRun('thread_123', request);
+        final result = await client.createStatefulBackgroundRun(
+          'thread_123',
+          request,
+        );
 
         expect(result, isA<Run>());
         expect(result.runId, equals('run_123'));
         expect(result.metadata, equals({'key': 'value'}));
 
-        verify(mockClient.post(
-          Uri.parse('$baseUrl/threads/thread_123/runs'),
-          headers: client.headers,
-          body: jsonEncode(request.toJson()),
-        )).called(1);
+        verify(
+          mockClient.post(
+            Uri.parse('$baseUrl/threads/thread_123/runs'),
+            headers: client.headers,
+            body: jsonEncode(request.toJson()),
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.post(
-          Uri.parse('$baseUrl/threads/thread_123/runs'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/threads/thread_123/runs'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
-        final request = RunCreateStateful(
-          assistantId: 'assistant_123',
-        );
+        final request = RunCreateStateful(assistantId: 'assistant_123');
 
         expect(
           () => client.createStatefulBackgroundRun('thread_123', request),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -165,8 +184,11 @@ void main() {
         await expectLater(
           stream,
           emitsInOrder([
-            isA<SseEvent>()
-                .having((e) => e.data, 'data', contains('"key": "value"')),
+            isA<LangGraphMetadataEvent>().having(
+              (e) => e.metadata['key'],
+              'metadata.key',
+              equals('value'),
+            ),
           ]),
         );
 
@@ -181,14 +203,17 @@ void main() {
 
         when(mockClient.send(any)).thenAnswer((_) async => mockResponse);
 
-        final request = RunCreateStateful(
-          assistantId: 'assistant_123',
-        );
+        final request = RunCreateStateful(assistantId: 'assistant_123');
 
         expect(
           () => client.streamStatefulRun('thread_123', request).toList(),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -207,12 +232,13 @@ void main() {
           'multitask_strategy': 'reject',
         };
 
-        when(mockClient.post(
-          Uri.parse('$baseUrl/threads/thread_123/runs/wait'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/threads/thread_123/runs/wait'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final request = RunCreateStateful(
           assistantId: 'assistant_123',
@@ -225,28 +251,35 @@ void main() {
         expect(result['run_id'], equals('run_123'));
         expect(result['metadata'], equals({'key': 'value'}));
 
-        verify(mockClient.post(
-          Uri.parse('$baseUrl/threads/thread_123/runs/wait'),
-          headers: client.headers,
-          body: jsonEncode(request.toJson()),
-        )).called(1);
+        verify(
+          mockClient.post(
+            Uri.parse('$baseUrl/threads/thread_123/runs/wait'),
+            headers: client.headers,
+            body: jsonEncode(request.toJson()),
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.post(
-          Uri.parse('$baseUrl/threads/thread_123/runs/wait'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/threads/thread_123/runs/wait'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
-        final request = RunCreateStateful(
-          assistantId: 'assistant_123',
-        );
+        final request = RunCreateStateful(assistantId: 'assistant_123');
 
         expect(
           () => client.waitForStatefulRun('thread_123', request),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -265,11 +298,12 @@ void main() {
           'multitask_strategy': 'reject',
         };
 
-        when(mockClient.get(
-          Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
-          headers: client.headers,
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.get(
+            Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final result = await client.getStatefulRun('thread_123', 'run_123');
 
@@ -277,83 +311,117 @@ void main() {
         expect(result.runId, equals('run_123'));
         expect(result.metadata, equals({'key': 'value'}));
 
-        verify(mockClient.get(
-          Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
-          headers: client.headers,
-        )).called(1);
+        verify(
+          mockClient.get(
+            Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
+            headers: client.headers,
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.get(
-          Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
-          headers: client.headers,
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.get(
+            Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
         expect(
           () => client.getStatefulRun('thread_123', 'run_123'),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
 
     group('cancelStatefulRun', () {
       test('cancels stateful run successfully', () async {
-        when(mockClient.post(
-          Uri.parse(
-              '$baseUrl/threads/thread_123/runs/run_123/cancel?wait=false&action=interrupt'),
-          headers: client.headers,
-        )).thenAnswer((_) async => http.Response('', 200));
+        when(
+          mockClient.post(
+            Uri.parse(
+              '$baseUrl/threads/thread_123/runs/run_123/cancel?wait=false&action=interrupt',
+            ),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response('', 200));
 
         await client.cancelStatefulRun('thread_123', 'run_123');
 
-        verify(mockClient.post(
-          Uri.parse(
-              '$baseUrl/threads/thread_123/runs/run_123/cancel?wait=false&action=interrupt'),
-          headers: client.headers,
-        )).called(1);
+        verify(
+          mockClient.post(
+            Uri.parse(
+              '$baseUrl/threads/thread_123/runs/run_123/cancel?wait=false&action=interrupt',
+            ),
+            headers: client.headers,
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.post(
-          Uri.parse(
-              '$baseUrl/threads/thread_123/runs/run_123/cancel?wait=false&action=interrupt'),
-          headers: client.headers,
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.post(
+            Uri.parse(
+              '$baseUrl/threads/thread_123/runs/run_123/cancel?wait=false&action=interrupt',
+            ),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
         expect(
           () => client.cancelStatefulRun('thread_123', 'run_123'),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
 
     group('deleteStatefulRun', () {
       test('deletes stateful run successfully', () async {
-        when(mockClient.delete(
-          Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
-          headers: client.headers,
-        )).thenAnswer((_) async => http.Response('', 200));
+        when(
+          mockClient.delete(
+            Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response('', 200));
 
         await client.deleteStatefulRun('thread_123', 'run_123');
 
-        verify(mockClient.delete(
-          Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
-          headers: client.headers,
-        )).called(1);
+        verify(
+          mockClient.delete(
+            Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
+            headers: client.headers,
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.delete(
-          Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
-          headers: client.headers,
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.delete(
+            Uri.parse('$baseUrl/threads/thread_123/runs/run_123'),
+            headers: client.headers,
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
         expect(
           () => client.deleteStatefulRun('thread_123', 'run_123'),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });

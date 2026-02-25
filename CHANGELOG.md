@@ -1,3 +1,19 @@
+# 1.0.0
+
+* BREAKING: streaming APIs now return typed events instead of raw `SseEvent`:
+  * `streamStatefulRun`, `joinStatefulRunStream`, `streamExistingStatefulRun`
+  * `streamRun` (stateless)
+* Added high-level conversation streaming APIs:
+  * `runStatefulConversationStream`
+  * `joinStatefulConversationStream`
+  * `streamExistingStatefulConversation`
+  * `runStatelessConversationStream`
+* Added a new streaming abstraction module:
+  * `LangGraphStreamEvent` hierarchy
+  * `ConversationStreamEvent` hierarchy
+  * unified parser, origin classification, and projection helpers
+* Updated examples and tests to the new streaming interface.
+
 # 0.2.2
 
 * Added support for additional LangGraph API endpoints:

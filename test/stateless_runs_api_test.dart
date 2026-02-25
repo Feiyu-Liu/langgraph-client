@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:langgraph_client/langgraph_client.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sse_stream/sse_stream.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
@@ -42,12 +41,13 @@ void main() {
           'multitask_strategy': 'reject',
         };
 
-        when(mockClient.post(
-          Uri.parse('$baseUrl/runs'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final request = RunCreateStateless(
           assistantId: 'assistant_123',
@@ -60,28 +60,35 @@ void main() {
         expect(result['run_id'], equals('run_123'));
         expect(result['metadata'], equals({'key': 'value'}));
 
-        verify(mockClient.post(
-          Uri.parse('$baseUrl/runs'),
-          headers: client.headers,
-          body: jsonEncode(request.toJson()),
-        )).called(1);
+        verify(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs'),
+            headers: client.headers,
+            body: jsonEncode(request.toJson()),
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.post(
-          Uri.parse('$baseUrl/runs'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
-        final request = RunCreateStateless(
-          assistantId: 'assistant_123',
-        );
+        final request = RunCreateStateless(assistantId: 'assistant_123');
 
         expect(
           () => client.createBackgroundRun(request),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -105,8 +112,11 @@ void main() {
         await expectLater(
           stream,
           emitsInOrder([
-            isA<SseEvent>()
-                .having((e) => e.data, 'data', contains('"key": "value"')),
+            isA<LangGraphMetadataEvent>().having(
+              (e) => e.metadata['key'],
+              'metadata.key',
+              equals('value'),
+            ),
             emitsDone,
           ]),
         );
@@ -122,14 +132,17 @@ void main() {
 
         when(mockClient.send(any)).thenAnswer((_) async => mockResponse);
 
-        final request = RunCreateStateless(
-          assistantId: 'assistant_123',
-        );
+        final request = RunCreateStateless(assistantId: 'assistant_123');
 
         expect(
           () => client.streamRun(request).toList(),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -148,12 +161,13 @@ void main() {
           'multitask_strategy': 'reject',
         };
 
-        when(mockClient.post(
-          Uri.parse('$baseUrl/runs/wait'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs/wait'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final request = RunCreateStateless(
           assistantId: 'assistant_123',
@@ -166,28 +180,35 @@ void main() {
         expect(result['run_id'], equals('run_123'));
         expect(result['metadata'], equals({'key': 'value'}));
 
-        verify(mockClient.post(
-          Uri.parse('$baseUrl/runs/wait'),
-          headers: client.headers,
-          body: jsonEncode(request.toJson()),
-        )).called(1);
+        verify(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs/wait'),
+            headers: client.headers,
+            body: jsonEncode(request.toJson()),
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.post(
-          Uri.parse('$baseUrl/runs/wait'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs/wait'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
-        final request = RunCreateStateless(
-          assistantId: 'assistant_123',
-        );
+        final request = RunCreateStateless(assistantId: 'assistant_123');
 
         expect(
           () => client.waitForRun(request),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });
@@ -219,12 +240,13 @@ void main() {
           },
         ];
 
-        when(mockClient.post(
-          Uri.parse('$baseUrl/runs/batch'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer(
-            (_) async => http.Response(jsonEncode(mockResponse), 200));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs/batch'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(mockResponse), 200));
 
         final requests = [
           RunCreateStateless(
@@ -244,33 +266,38 @@ void main() {
         expect(results[0]['run_id'], equals('run_1'));
         expect(results[1]['run_id'], equals('run_2'));
 
-        verify(mockClient.post(
-          Uri.parse('$baseUrl/runs/batch'),
-          headers: client.headers,
-          body: jsonEncode(requests.map((r) => r.toJson()).toList()),
-        )).called(1);
+        verify(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs/batch'),
+            headers: client.headers,
+            body: jsonEncode(requests.map((r) => r.toJson()).toList()),
+          ),
+        ).called(1);
       });
 
       test('throws exception on error', () async {
-        when(mockClient.post(
-          Uri.parse('$baseUrl/runs/batch'),
-          headers: client.headers,
-          body: anyNamed('body'),
-        )).thenAnswer((_) async => http.Response('Not found', 404));
+        when(
+          mockClient.post(
+            Uri.parse('$baseUrl/runs/batch'),
+            headers: client.headers,
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response('Not found', 404));
 
         final requests = [
-          RunCreateStateless(
-            assistantId: 'assistant_1',
-          ),
-          RunCreateStateless(
-            assistantId: 'assistant_2',
-          ),
+          RunCreateStateless(assistantId: 'assistant_1'),
+          RunCreateStateless(assistantId: 'assistant_2'),
         ];
 
         expect(
           () => client.createRunBatch(requests),
-          throwsA(isA<LangGraphApiException>()
-              .having((e) => e.statusCode, 'statusCode', 404)),
+          throwsA(
+            isA<LangGraphApiException>().having(
+              (e) => e.statusCode,
+              'statusCode',
+              404,
+            ),
+          ),
         );
       });
     });

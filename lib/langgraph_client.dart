@@ -30,3 +30,4 @@ library;
 
 export 'src/api/api.dart';
 export 'src/models/models.dart';
+export 'src/streaming/streaming.dart';
