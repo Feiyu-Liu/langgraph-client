@@ -33,6 +33,7 @@ LangGraphStreamEvent parseLangGraphEvent(SseEvent event) {
       final origin = classifyStreamOrigin(
         eventName: eventName,
         metadata: parsedMessage.metadata,
+        messageType: parsedMessage.message.type,
       );
       return LangGraphMessageEvent(
         eventName: eventName,
@@ -76,25 +77,36 @@ LangGraphStreamEvent parseLangGraphEvent(SseEvent event) {
 LangGraphStreamOrigin classifyStreamOrigin({
   required String eventName,
   required StreamMetadata metadata,
+  String? messageType,
 }) {
-  final eventDepth = _countSubagentDepth(eventName);
+  final normalizedEventName = _normalizeEventOrigin(
+    eventName,
+    messageType: messageType,
+  );
+  final eventDepth = _countSubagentDepth(normalizedEventName);
   if (eventDepth > 0) {
     return LangGraphStreamOrigin(
       isSubagent: true,
       subagentDepth: eventDepth,
-      subagentNamespace: _extractSubagentNamespaceFromEvent(eventName),
+      subagentNamespace: _extractSubagentNamespaceFromEvent(normalizedEventName),
       subagentName: _extractSubagentName(metadata),
     );
   }
 
   final checkpoint =
       metadata.langgraphCheckpointNs ?? metadata.checkpointNs ?? '';
-  final checkpointDepth = _countSubagentDepth(checkpoint);
+  final normalizedCheckpoint = _normalizeCheckpointNamespace(
+    checkpoint,
+    messageType: messageType,
+  );
+  final checkpointDepth = _countSubagentDepth(normalizedCheckpoint);
   if (checkpointDepth > 0) {
     return LangGraphStreamOrigin(
       isSubagent: true,
       subagentDepth: checkpointDepth,
-      subagentNamespace: _extractSubagentNamespaceFromCheckpoint(checkpoint),
+      subagentNamespace: _extractSubagentNamespaceFromCheckpoint(
+        normalizedCheckpoint,
+      ),
       subagentName: _extractSubagentName(metadata),
     );
   }
@@ -165,6 +177,43 @@ int _countSubagentDepth(String source) {
     return 0;
   }
   return RegExp(r'(^|\|)tools:').allMatches(source).length;
+}
+
+String _normalizeCheckpointNamespace(String checkpoint, {String? messageType}) {
+  if (checkpoint.isEmpty || messageType != 'tool') {
+    return checkpoint;
+  }
+
+  final segments = checkpoint.split('|');
+  if (segments.length <= 1) {
+    return checkpoint;
+  }
+
+  final lastSegment = segments.last;
+  if (!lastSegment.startsWith('tools:')) {
+    return checkpoint;
+  }
+
+  return segments.sublist(0, segments.length - 1).join('|');
+}
+
+String _normalizeEventOrigin(String eventName, {String? messageType}) {
+  if (eventName.isEmpty || messageType != 'tool') {
+    return eventName;
+  }
+  if (!eventName.startsWith('messages|')) {
+    return eventName;
+  }
+
+  final namespace = eventName.substring('messages|'.length);
+  final normalizedNamespace = _normalizeCheckpointNamespace(
+    namespace,
+    messageType: messageType,
+  );
+  if (normalizedNamespace == namespace) {
+    return eventName;
+  }
+  return 'messages|$normalizedNamespace';
 }
 
 String? _extractSubagentNamespaceFromEvent(String eventName) {

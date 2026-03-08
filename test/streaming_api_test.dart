@@ -48,6 +48,82 @@ void main() {
       expect(messageEvent.origin.subagentDepth, equals(1));
     });
 
+    test('normalizes tool message checkpoint depth to owning subagent', () {
+      final event = SseEvent(
+        name: 'messages',
+        data: jsonEncode([
+          {
+            'content': '{"success":true}',
+            'additional_kwargs': {},
+            'response_metadata': {},
+            'id': 'tool_msg_1',
+            'status': 'success',
+            'tool_call_id': 'call_1',
+            'type': 'tool',
+          },
+          {
+            'tags': [],
+            'run_attempt': 1,
+            'langgraph_version': '1.0.0',
+            'langgraph_plan': 'developer',
+            'langgraph_host': 'self-hosted',
+            'langgraph_api_url': 'http://localhost:2024',
+            'run_id': 'run_1',
+            'thread_id': 'thread_1',
+            'graph_id': 'agent',
+            'assistant_id': 'assistant_1',
+            'langgraph_step': 1,
+            'langgraph_node': 'tools',
+            'langgraph_checkpoint_ns':
+                'tools:parent|tools:child|tools:tool-node',
+          },
+        ]),
+      );
+
+      final parsed = parseLangGraphEvent(event) as LangGraphMessageEvent;
+      expect(parsed.message.isToolMessage, isTrue);
+      expect(parsed.origin.isSubagent, isTrue);
+      expect(parsed.origin.subagentDepth, equals(2));
+      expect(parsed.origin.subagentNamespace, equals('tools:parent|tools:child'));
+    });
+
+    test('normalizes tool message event namespace to owning subagent', () {
+      final event = SseEvent(
+        name: 'messages|tools:parent|tools:child|tools:tool-node',
+        data: jsonEncode([
+          {
+            'content': '{"success":true}',
+            'additional_kwargs': {},
+            'response_metadata': {},
+            'id': 'tool_msg_2',
+            'status': 'success',
+            'tool_call_id': 'call_2',
+            'type': 'tool',
+          },
+          {
+            'tags': [],
+            'run_attempt': 1,
+            'langgraph_version': '1.0.0',
+            'langgraph_plan': 'developer',
+            'langgraph_host': 'self-hosted',
+            'langgraph_api_url': 'http://localhost:2024',
+            'run_id': 'run_1',
+            'thread_id': 'thread_1',
+            'graph_id': 'agent',
+            'assistant_id': 'assistant_1',
+            'langgraph_step': 1,
+            'langgraph_node': 'tools',
+          },
+        ]),
+      );
+
+      final parsed = parseLangGraphEvent(event) as LangGraphMessageEvent;
+      expect(parsed.message.isToolMessage, isTrue);
+      expect(parsed.origin.isSubagent, isTrue);
+      expect(parsed.origin.subagentDepth, equals(2));
+      expect(parsed.origin.subagentNamespace, equals('tools:parent|tools:child'));
+    });
+
     test('projects structured events to conversation events', () async {
       final stream = Stream<LangGraphStreamEvent>.fromIterable([
         LangGraphMetadataEvent(
